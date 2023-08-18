@@ -5,7 +5,7 @@ Use the entries below as an example.
 
 ## Week 4
 
-Everyone: Research and discuss the project - meeting 11:00pm 18 August
+Everyone: Research and discuss the project - meeting 11:00pm 18 August.
 
 ## Week 5
 

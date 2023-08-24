@@ -14,5 +14,4 @@ public class B {
         return null;
     }
 
-    B b = new B();
 }

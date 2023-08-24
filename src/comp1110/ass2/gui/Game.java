@@ -18,5 +18,23 @@ public class Game extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
+    /**
+     * control key mouse
+     */
+    void control( ) {
+
+    }
+
+    /**
+     * put a rug
+     */
+    void putRug() {
+
+    }
+
+
+
+
 }
 

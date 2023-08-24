@@ -1,4 +1,4 @@
-package comp1110.ass2.gui;
+package comp1110.ass2;
 
 public class Dice {
     //the outcome of the roll

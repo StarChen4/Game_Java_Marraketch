@@ -9,14 +9,14 @@ declaration: >-
 # members).  
 contributions:
   - uid: u7722376
-    contribution: 
+    contribution: 33
   - uid: u7703248
-    contribution:
+    contribution: 33
   - uid: u7725171
-    contribution:
+    contribution: 33
 
 # Sign *your* name and uids here. (Remove entries if you have fewer
-# than three members)
+# than three members) 1
 signatures:
   - name: Diao Fu
     uid: u7722376

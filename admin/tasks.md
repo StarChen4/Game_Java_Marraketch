@@ -5,15 +5,15 @@ Use the entries below as an example.
 
 ## Week 4
 
-Everyone: Research and discuss the project - meeting 11:00pm 18 August.
+Everyone: Research and discuss the project - meeting 5pm 11 August.
 
 ## Week 5
 
-Zhang San: Task 3 isPlayerStateWellFormed - 23 Mar
+Diao Fu: draw the sketch - 24 August
 
-Jane Bloggs: Task 5 drawTileFromBag - 23 Mar
+Chuang Ma:  - 24 August
 
-Erika Mustermann: Task 6 refillFactories - 25 Mar (depends on Task 5)
+Xing Chen: Task 6 refillFactories - 24 August
 
 ## Week 6
 

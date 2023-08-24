@@ -19,3 +19,4 @@ public class Game extends Application {
         stage.show();
     }
 }
+

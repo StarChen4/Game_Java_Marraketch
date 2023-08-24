@@ -12,5 +12,6 @@ import java.util.SplittableRandom;
 public class B {
     public String toString(){
         return null;
+
     }
 }

@@ -18,5 +18,83 @@ public class Game extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Method that creates the buttons, sliders and text for the game.
+     */
+    private void makeControls() {
+
+    }
+
+    /**
+     * roll die
+     * @param point point of die to display
+     */
+    private void rollDie(int point) {
+
+    }
+
+    /**
+     * Move Assam
+     * @param step
+     */
+    private void moveAssam(int step) {
+
+    }
+
+    /**
+     * Rote Assam
+     * @param direction
+     */
+    private void rotateAssam(int direction) {
+
+    }
+
+    /**
+     * Put a rug to the board.
+     **/
+    private void placeRug() {
+
+    }
+
+    /**
+     * A method that creates an Assam and adds it to the board.
+     **/
+    private void createAssam() {
+
+    }
+
+    /**
+     * A method that creates a die and adds it to the board.
+     **/
+    private void createDie() {
+
+    }
+
+    /**
+     * Creates the board for the application.
+     */
+    private void makeBoard() {
+
+    }
+
+    /**
+     * Create a new game.
+     */
+    private void newGame() {
+
+    }
+
+    /**
+     * Restart the game.
+     */
+    private void restart() {
+    }
+
+
+
+
 }
 

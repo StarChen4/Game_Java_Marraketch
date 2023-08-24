@@ -43,9 +43,9 @@ public class Rug {
 
     /**
      * place the rug on the game board
-     * @param coordinatesToPlace
+     * @param coordinatesToPlace target coordinate
      */
     public void place(Coordinate[] coordinatesToPlace){
-
+        this.coordinates = coordinatesToPlace;
     }
 }

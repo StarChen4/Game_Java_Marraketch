@@ -35,7 +35,7 @@ public class Player {
      * rotate Assam
      * @param rotation direction of the rotation:left,right or remain still
      */
-    public void rotateAssam(Direction rotation){
+    public void rotateAssam(Rotation rotation){
 
     }
 

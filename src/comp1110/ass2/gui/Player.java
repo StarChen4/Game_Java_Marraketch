@@ -2,7 +2,7 @@ package comp1110.ass2.gui;
 
 public class Player {
     //name of player
-    private String name;
+    private final String name;
     //rugs of this player
     private Rug[] rugs;
     //number of player's rugs
@@ -10,7 +10,7 @@ public class Player {
     //dirhams of player
     private int dirhams;
     //color of player's rug
-    private Color color;
+    public Color color;
     //index of the rug to be placed
     private int index_to_be_placed;
 
@@ -73,4 +73,5 @@ public class Player {
     public boolean placeRug(Rug rug_to_be_placed){
         return true;
     }
+
 }

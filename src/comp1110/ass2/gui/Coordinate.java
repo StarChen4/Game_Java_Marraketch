@@ -1,8 +1,5 @@
 package comp1110.ass2.gui;
 
-/**
- * A Pair of ints (primitive Integers) that is used for variety of purposes in this assignment
- */
 public class Coordinate {
     // int x
     private int x;
@@ -20,7 +17,7 @@ public class Coordinate {
     }
 
     /**
-     * getter method for x
+     * getter of x
      * @return x
      */
     public int getX() {
@@ -28,7 +25,7 @@ public class Coordinate {
     }
 
     /**
-     *getter method for y
+     *getter of y
      * @return y
      */
     public int getY() {

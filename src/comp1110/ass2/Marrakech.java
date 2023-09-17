@@ -22,9 +22,41 @@ public class Marrakech {
      * @param rug A String representing the rug you are checking
      * @return true if the rug is valid, and false otherwise.
      */
-    public static boolean isRugValid(String gameString, String rug) {
+    public static boolean isRugValid(String gameString, String rug){
         // FIXME: Task 4
-        return false;
+        if (rug.length() != 7) {
+            return false;
+        }
+
+        String firstStr = rug.substring(0, 1);
+        if (!"cyrp".contains(firstStr)) {
+            return false;
+        }
+
+        if (!Tools.isNumber(rug.substring(1))) {
+            return false;
+        }
+        for (int i = 3; i < 7; i++) {
+            char numberChar = rug.charAt(i);
+            if (Character.getNumericValue(numberChar) > 6) {
+                return false;
+            }
+        }
+
+        String boardString = gameString.substring(gameString.indexOf("B"));
+        if (boardString.contains(rug.substring(0, 3))) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        PlayerColor[] a = PlayerColor.values();
+        for (PlayerColor b:a){
+            System.out.println(b.getColorChar());
+
+        }
     }
 
     /**
@@ -43,7 +75,13 @@ public class Marrakech {
      */
     public static int rollDie() {
         // FIXME: Task 6
-        return -1;
+        int die = (int) (Math.random() * 6 + 1);
+        if (die == 5) {
+            die = 2;
+        } else if (die == 6) {
+            die = 3;
+        }
+        return die;
     }
 
     /**

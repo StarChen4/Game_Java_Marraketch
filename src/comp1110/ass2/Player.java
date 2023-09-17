@@ -1,77 +1,91 @@
 package comp1110.ass2;
 
+
+import java.util.HashMap;
+
 public class Player {
-    //name of player
-    private final String name;
-    //rugs of this player
-    private Rug[] rugs;
-    //number of player's rugs
-    private int rug_number;
-    //dirhams of player
-    private int dirhams;
-    //color of player's rug
-    public Color color;
-    //index of the rug to be placed
-    private int index_to_be_placed;
+    private PlayerColor color;
+    private int dirhamsAmount = 30;
+    private int rugsAmount = 15;
+    private boolean inGame = true;
+    private final HashMap<Integer, Rug> rugs = new HashMap<>();
 
-    /**
-     * constructor of player, initialize name,rugs,color,dirhams
-     * @param name the name of this player
-     * @param color the color standing for this player
-     */
-    public Player(String name,Color color){
-        this.name = name;
-        this.rugs = new Rug[15];
-        for (int i = 0; i<15; i++) {
-            this.rugs[i] = new Rug(this,color);
-        }
+    public Player(PlayerColor color, int dirhamsAmount, int rugsAmount, boolean inGame) {
         this.color = color;
-        this.dirhams = 30;
-        this.rug_number = 15;
-        this.index_to_be_placed = this.rugs.length-1;
+        this.dirhamsAmount = dirhamsAmount;
+        this.rugsAmount = rugsAmount;
+        this.inGame = inGame;
     }
 
     /**
-     * rotate Assam
-     * @param rotation direction of the rotation:left,right or remain still
+     *
+     * @param status player string e.g. Pr00803i
      */
-    public void rotateAssam(Rotation rotation){
-
+    public Player(String status) {
+        switch (status.charAt(1)) {
+            case 'c':
+                this.color = PlayerColor.CYAN;
+                break;
+            case 'y':
+                this.color = PlayerColor.YELLOW;
+                break;
+            case 'r':
+                this.color = PlayerColor.RED;
+                break;
+            case 'p':
+                this.color = PlayerColor.PURPLE;
+                break;
+        }
+        setStatus(status);
     }
 
     /**
-     * roll the dice
-     * @param dice
-     * @return the outcome of the roll
+     *
+     * @param status player string e.g. Pr00803i
      */
-    public int rollDice(Dice dice){
-       dice.roll();
-       return dice.outcome;
+    public void setStatus(String status) {
+        if (!Tools.isNumber(status.substring(2,7))){
+            System.out.println("Player::setStatus| invalid player string: " + status);
+            return;
+        }
+        this.dirhamsAmount = Integer.parseInt(status.substring(2, 5));
+        this.rugsAmount = Integer.parseInt(status.substring(5, 7));
+        this.inGame = (status.charAt(7)=='i');
     }
 
-    /**
-     * move Assam according to the roll outcome
-     */
-    public void moveAsssam(){
-
+    public String statusString() {
+        return color.getColorChar() + String.format("%03d", dirhamsAmount) + String.format("%02d", rugsAmount);
     }
 
-    /**
-     * make payment to other players
-     * @param target_player the player to pay to
-     * @return if the payment is successful
-     */
-    public boolean payTo(Player target_player){
-        return true;
+    public HashMap<Integer, Rug> getRugs() {
+        return rugs;
     }
 
-    /**
-     * place a rug of this player
-     * @param rug_to_be_placed the rug to be placed
-     * @return placement result
-     */
-    public boolean placeRug(Rug rug_to_be_placed){
-        return true;
+    public PlayerColor getColor() {
+        return color;
     }
 
+    public int getDirhamsAmount() {
+        return dirhamsAmount;
+    }
+
+    public void setDirhamsAmount(int dirhamsAmount) {
+        this.dirhamsAmount = dirhamsAmount;
+    }
+
+    public int getRugsAmount() {
+        return rugsAmount;
+    }
+
+    public void setRugsAmount(int rugsAmount) {
+        this.rugsAmount = rugsAmount;
+    }
+
+    public boolean isInGame() {
+        return inGame;
+    }
+
+    public void setInGame(boolean inGame) {
+        this.inGame = inGame;
+    }
 }

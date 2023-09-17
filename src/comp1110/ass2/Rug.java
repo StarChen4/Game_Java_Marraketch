@@ -5,6 +5,8 @@ public class Rug {
     private final Player owner;
     //the color of this rug
     private Color color;
+    //ID of this rug
+    private int id;
     //the coordinates of two pieces of this rug
     private Coordinate[] coordinates;
 
@@ -12,10 +14,10 @@ public class Rug {
      * constructor: create an instance
      * @param owner
      */
-    public Rug(Player owner,Color color){
+    public Rug(Player owner,Color color,int id){
         this.owner = owner;
         this.color = color;
-
+        this.id = id;
     }
 
     /** getter of owner

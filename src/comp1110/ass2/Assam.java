@@ -9,8 +9,9 @@ public class Assam {
      * constructor: create Assam on the board
      * @param coordinate
      */
-    public Assam(Coordinate coordinate){
+    public Assam(Coordinate coordinate,Direction direction){
         this.coordinate = coordinate;
+        this.direction = direction;
     }
 
     /**

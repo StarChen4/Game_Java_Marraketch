@@ -4,9 +4,9 @@ package comp1110.ass2;
  * Squares on the game board
  */
 public class Square {
-    private Coordinate coordinate;
+    public Coordinate coordinate;
     //rugs on this squares
-    private Rug[] rugs = null;
+    public Rug[] rugs = null;
 
     /**
      * constructor:give square a coordinate

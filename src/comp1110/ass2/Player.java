@@ -5,7 +5,7 @@ public class Player {
     private final String name;
     //rugs of this player
     private Rug[] rugs;
-    //number of player's rugs
+    //number of player's remaining rugs
     private int rug_number;
     //dirhams of player
     private int dirhams;
@@ -13,6 +13,8 @@ public class Player {
     public Color color;
     //index of the rug to be placed
     private int index_to_be_placed;
+    //the game state of player
+    public boolean in_game;
 
     /**
      * constructor of player, initialize name,rugs,color,dirhams
@@ -23,12 +25,13 @@ public class Player {
         this.name = name;
         this.rugs = new Rug[15];
         for (int i = 0; i<15; i++) {
-            this.rugs[i] = new Rug(this,color);
+            this.rugs[i] = new Rug(this, color, i);
         }
         this.color = color;
         this.dirhams = 30;
         this.rug_number = 15;
         this.index_to_be_placed = this.rugs.length-1;
+        this.in_game = true;
     }
 
     /**

@@ -10,6 +10,13 @@ public class Player {
     private boolean inGame = true;
     private final HashMap<Integer, Rug> rugs = new HashMap<>();
 
+    /**
+     * constructor
+     * @param color color of this player and the rugs of him
+     * @param dirhamsAmount the money he has
+     * @param rugsAmount the remaining rugs of him
+     * @param inGame the state of player to determine whether he is in the game
+     */
     public Player(PlayerColor color, int dirhamsAmount, int rugsAmount, boolean inGame) {
         this.color = color;
         this.dirhamsAmount = dirhamsAmount;
@@ -18,10 +25,11 @@ public class Player {
     }
 
     /**
-     *
+     * String constructor which takes in a String and create instance accordingly
      * @param status player string e.g. Pr00803i
      */
     public Player(String status) {
+        //set the player's color
         switch (status.charAt(1)) {
             case 'c':
                 this.color = PlayerColor.CYAN;
@@ -36,11 +44,12 @@ public class Player {
                 this.color = PlayerColor.PURPLE;
                 break;
         }
+        //set other status
         setStatus(status);
     }
 
     /**
-     *
+     * set other status according to the String parameter
      * @param status player string e.g. Pr00803i
      */
     public void setStatus(String status) {
@@ -53,10 +62,18 @@ public class Player {
         this.inGame = (status.charAt(7)=='i');
     }
 
+    /**
+     * get the status String of this player
+     * @return status String
+     */
     public String statusString() {
         return color.getColorChar() + String.format("%03d", dirhamsAmount) + String.format("%02d", rugsAmount);
     }
 
+    /**
+     *
+     * @return
+     */
     public HashMap<Integer, Rug> getRugs() {
         return rugs;
     }

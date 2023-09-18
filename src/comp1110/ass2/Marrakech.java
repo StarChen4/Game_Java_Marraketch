@@ -4,7 +4,7 @@ public class Marrakech {
 
     /**
      * Determine whether a rug String is valid.
-     * For this method, you need to determine whether the rug String is valid, but do not need to determine whether it
+     * This method determines whether the rug String is valid, but do not need to determine whether it
      * can be placed on the board (you will determine that in Task 10 ). A rug is valid if and only if all the following
      * conditions apply:
      *  - The String is 7 characters long
@@ -24,25 +24,27 @@ public class Marrakech {
      */
     public static boolean isRugValid(String gameString, String rug){
         // FIXME: Task 4
+        // Check if the rug String is 7 characters long.
         if (rug.length() != 7) {
             return false;
         }
-
+        // Check if the first character corresponds to the colour character of a player present in the game.
         String firstStr = rug.substring(0, 1);
         if (!"cyrp".contains(firstStr)) {
             return false;
         }
-
+        // Check if the next two characters represent a valid 2-digit ID number.
         if (!Tools.isNumber(rug.substring(1))) {
             return false;
         }
+        // Check if the next 4 characters represent valid coordinates within the board boundaries.
         for (int i = 3; i < 7; i++) {
             char numberChar = rug.charAt(i);
             if (Character.getNumericValue(numberChar) > 6) {
                 return false;
             }
         }
-
+        // Extract the board information from the gameString and check if the rug's coordinates are already on the board.
         String boardString = gameString.substring(gameString.indexOf("B"));
         if (boardString.contains(rug.substring(0, 3))) {
             return false;
@@ -75,11 +77,11 @@ public class Marrakech {
      */
     public static int rollDie() {
         // FIXME: Task 6
-        int die = (int) (Math.random() * 6 + 1);
+        int die = (int) (Math.random() * 6 + 1);// A random number between 1 and 6.
         if (die == 5) {
-            die = 2;
+            die = 2;// Since there is no face that show 5, instead it to 2.
         } else if (die == 6) {
-            die = 3;
+            die = 3;// since there is no face that show 6, instead it to 3.
         }
         return die;
     }

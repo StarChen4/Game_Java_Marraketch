@@ -1,7 +1,5 @@
 package comp1110.ass2;
 
-import javafx.scene.paint.Color;
-
 
 public class Assam {
     public enum AssamFacing {
@@ -10,7 +8,7 @@ public class Assam {
         BOTTOM("S", 180),
         LEFT("W", 270);
         private final String directionChar;
-        private final double degrees;
+        private final int degrees;
 
         AssamFacing(String directionChar, int degrees) {
             this.directionChar = directionChar;
@@ -21,7 +19,7 @@ public class Assam {
             return directionChar;
         }
 
-        public double getDegrees() {
+        public int getDegrees() {
             return degrees;
         }
     }
@@ -65,4 +63,23 @@ public class Assam {
         positionY = Math.min(Integer.parseInt(status.substring(2, 3)), 6);
     }
 
+
+
+    /**
+     * rotate Assam to some direction according to the rotation's degree
+     * @param rotation
+     */
+    public void rotate(Rotation rotation){
+        int new_facing_degree = (this.facing.degrees + rotation.degree) % 360; //new degree to face, top is 0, right is 90...
+        switch(new_facing_degree){
+            case 0 -> this.facing = AssamFacing.TOP;
+            case 90 -> this.facing = AssamFacing.RIGHT;
+            case 180 -> this.facing = AssamFacing.BOTTOM;
+            case 270 -> this.facing = AssamFacing.LEFT;
+            default -> {
+                System.out.println("Assam::setStatus| invalid rotation degree: " + rotation);
+                return;
+            }
+        }
+    }
 }

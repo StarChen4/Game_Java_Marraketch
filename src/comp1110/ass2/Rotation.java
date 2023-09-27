@@ -6,13 +6,13 @@ public enum Rotation {
     REMAIN_STILL(0);
 
 
-    public final int value;
+    public final int degree;
 
     /**
      * constructor
-     * @param value
+     * @param degree
      */
-    Rotation(int value){
-        this.value = value;
+    Rotation(int degree){
+        this.degree = degree;
     }
 }

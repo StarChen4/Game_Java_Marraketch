@@ -12,7 +12,7 @@ public class Player {
     private final HashMap<Integer, Rug> rugs = new HashMap<>();
 
     /**
-     * constructor
+     * constructor: initialize the state of player and the rugs of it
      * @param color color of this player and the rugs of him
      * @param dirhamsAmount the money he has
      * @param rugsAmount the remaining rugs of him
@@ -23,6 +23,11 @@ public class Player {
         this.dirhamsAmount = dirhamsAmount;
         this.rugsAmount = rugsAmount;
         this.inGame = inGame;
+        for (int i = 0; i < rugsAmount; i++) {
+            // set every rug's owner to this player and give them id
+            Rug rug = new Rug(this, i);
+            this.rugs.put(i, rug);
+        }
     }
 
     /**
@@ -73,8 +78,8 @@ public class Player {
 
     /**
      * pay to some player
-     * @param other_player
-     * @param payAmount
+     * @param other_player the player who accept this money
+     * @param payAmount amount to pay
      */
     public void payTo(Player other_player,int payAmount){
         other_player.receiveDirhams(payAmount);
@@ -83,10 +88,13 @@ public class Player {
 
     /**
      * receive money from other player
-     * @param dirhamsAmount
+     * @param dirhamsAmount amount of received money
      */
     public void receiveDirhams(int dirhamsAmount){
         this.dirhamsAmount += dirhamsAmount;
+    }
+    public void placeRug(Tile tile){
+
     }
     /**
      *

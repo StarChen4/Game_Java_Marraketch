@@ -2,13 +2,18 @@ package comp1110.ass2;
 
 public class Rug {
     private int id = 0;
+    private Player owner;
+    private PlayerColor color;
+    private Tile[] covered_tiles;
     private int seg1X = -1;
     private int seg1Y = -1;
     private int seg2X = -1;
     private int seg2Y = -1;
 
-    public Rug(int id) {
+    public Rug(Player owner,int id) {
+        this.owner = owner;
         this.id = id;
+        this.color = owner.getColor();
     }
 
     /**
@@ -61,7 +66,11 @@ public class Rug {
         }
     }
 
-
+    /**
+     * getter of its owner
+     * @return the owner object
+     */
+    public Player getOwner() { return owner;}
     public int getId() {
         return id;
     }

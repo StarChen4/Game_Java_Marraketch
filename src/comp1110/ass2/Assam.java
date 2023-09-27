@@ -24,9 +24,9 @@ public class Assam {
         }
     }
 
-    public AssamFacing facing;
-    public int positionX;
-    public int positionY;
+    private AssamFacing facing= AssamFacing.TOP;;
+    private int positionX = 3;
+    private int positionY = 3;
 
     public Assam() {
         this("A33N");
@@ -41,15 +41,16 @@ public class Assam {
      * @param status status string e.g. A04N
      */
     public void setStatus(String status) {
-        if (status.length() != 4) {
+        if (status.length() != 4 || status.charAt(0) != 'A') {
             System.out.println("Assam::setStatus| invalid assam string: " + status);
             return;
         }
+        AssamFacing facingStatus;
         switch (status.charAt(3)) {
-            case 'N' -> this.facing = AssamFacing.TOP;
-            case 'E' -> this.facing = AssamFacing.RIGHT;
-            case 'S' -> this.facing = AssamFacing.BOTTOM;
-            case 'W' -> this.facing = AssamFacing.LEFT;
+            case 'N' -> facingStatus = AssamFacing.TOP;
+            case 'E' -> facingStatus = AssamFacing.RIGHT;
+            case 'S' -> facingStatus = AssamFacing.BOTTOM;
+            case 'W' -> facingStatus = AssamFacing.LEFT;
             default -> {
                 System.out.println("Assam::setStatus| invalid assam string: " + status);
                 return;
@@ -59,43 +60,51 @@ public class Assam {
             System.out.println("Assam::setStatus| invalid assam string: " + status);
             return;
         }
-        positionX = Math.min(Integer.parseInt(status.substring(1, 2)), 6);
-        positionY = Math.min(Integer.parseInt(status.substring(2, 3)), 6);
+        int statusX = Integer.parseInt(status.substring(1, 2));
+        int statusY = Integer.parseInt(status.substring(2, 3));
+        if (statusX > 6 || statusY > 6) {
+            System.out.println("Assam::setStatus| invalid assam string: " + status);
+            return;
+        }
+
+        positionX = statusX;
+        positionY = statusY;
+        this.facing = facingStatus;
     }
 
-    /**
-     * move assam according to the movement amount and its facing direction
-     * if assam faces top, the Y coordinate of assam should be reduced by movement
-     * if assam faces right, the X coordinate of assam should be added by movement
-     * if assam faces bottom, the Y coordinate of assam should be added by movement
-     * if assam faces left, the X coordinate of assam should be reduced by movement
-     * @param movement
-     */
-    public void move(int movement){
-        switch(this.facing){
-            case TOP -> this.positionY -= movement;
-            case RIGHT -> this.positionX += movement;
-            case BOTTOM -> this.positionY += movement;
-            case LEFT -> this.positionX -= movement;
-            default -> {return;}
-        }
+    public AssamFacing getFacing() {
+        return facing;
     }
 
-    /**
-     * rotate Assam to some direction according to the rotation's degree
-     * @param rotation
-     */
-    public void rotate(Rotation rotation){
-        int new_facing_degree = (this.facing.degrees + rotation.degree) % 360; //new degree to face, top is 0, right is 90...
-        switch(new_facing_degree){
-            case 0 -> this.facing = AssamFacing.TOP;
-            case 90 -> this.facing = AssamFacing.RIGHT;
-            case 180 -> this.facing = AssamFacing.BOTTOM;
-            case 270 -> this.facing = AssamFacing.LEFT;
-            default -> {
-                System.out.println("Assam::setStatus| invalid rotation degree: " + rotation);
-                return;
-            }
+    public void setFacing(AssamFacing facing) {
+        this.facing = facing;
+    }
+
+    public int getPositionX() {
+        return positionX;
+    }
+
+    public void setPositionX(int positionX) {
+        if (positionX < 0 || positionX > 6) {
+            System.out.println("invalid value");
+            return;
         }
+        this.positionX = positionX;
+    }
+
+    public int getPositionY() {
+        return positionY;
+    }
+
+    public void setPositionY(int positionY) {
+        if (positionY < 0 || positionY > 6) {
+            System.out.println("invalid value");
+            return;
+        }
+        this.positionY = positionY;
+    }
+
+    public String getStatusString() {
+        return "A" + positionX + positionY + facing.directionChar;
     }
 }

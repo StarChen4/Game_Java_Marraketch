@@ -38,14 +38,14 @@ public class Viewer extends Application {
         }
 
         /**
-         * This is used to set rotate and layout of Assam.
+         * This is used to set rotate and layout of Assam .
          * @param state String of state.
          */
         void setStatus(String state) {
             assam.setStatus(state);
-            this.setLayoutX(BOARD_START + (assam.positionX + 0.5) * GRID_SIZE);
-            this.setLayoutY(BOARD_START + (assam.positionY + 0.5) * GRID_SIZE);
-            this.setRotate(assam.facing.getDegrees());
+            this.setLayoutX(BOARD_START + (assam.getPositionX() + 0.5) * GRID_SIZE);
+            this.setLayoutY(BOARD_START + (assam.getPositionY() + 0.5) * GRID_SIZE);
+            this.setRotate(assam.getFacing().getDegrees());
         }
     }
 

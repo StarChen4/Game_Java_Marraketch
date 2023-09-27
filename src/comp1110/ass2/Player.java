@@ -4,6 +4,7 @@ package comp1110.ass2;
 import java.util.HashMap;
 
 public class Player {
+    private String name;
     private PlayerColor color;
     private int dirhamsAmount = 30;
     private int rugsAmount = 15;
@@ -70,6 +71,23 @@ public class Player {
         return color.getColorChar() + String.format("%03d", dirhamsAmount) + String.format("%02d", rugsAmount);
     }
 
+    /**
+     * pay to some player
+     * @param other_player
+     * @param payAmount
+     */
+    public void payTo(Player other_player,int payAmount){
+        other_player.receiveDirhams(payAmount);
+        this.dirhamsAmount -= payAmount; //TODO to be determined whether the amount should go below 0
+    }
+
+    /**
+     * receive money from other player
+     * @param dirhamsAmount
+     */
+    public void receiveDirhams(int dirhamsAmount){
+        this.dirhamsAmount += dirhamsAmount;
+    }
     /**
      *
      * @return

@@ -63,7 +63,23 @@ public class Assam {
         positionY = Math.min(Integer.parseInt(status.substring(2, 3)), 6);
     }
 
-
+    /**
+     * move assam according to the movement amount and its facing direction
+     * if assam faces top, the Y coordinate of assam should be reduced by movement
+     * if assam faces right, the X coordinate of assam should be added by movement
+     * if assam faces bottom, the Y coordinate of assam should be added by movement
+     * if assam faces left, the X coordinate of assam should be reduced by movement
+     * @param movement
+     */
+    public void move(int movement){
+        switch(this.facing){
+            case TOP -> this.positionY -= movement;
+            case RIGHT -> this.positionX += movement;
+            case BOTTOM -> this.positionY += movement;
+            case LEFT -> this.positionX -= movement;
+            default -> {return;}
+        }
+    }
 
     /**
      * rotate Assam to some direction according to the rotation's degree

@@ -38,12 +38,14 @@ static methods for which we have already provided unit tests.
 
 
 ### Tile class
-* Tile(String status, Player player); After execution, we need to use getPlayer(), isCovered(), getRugId() methods to check the correctness.
-* void setStatus(String status, Player player); After execution, we need to use getPlayer(), isCovered(), getRugId() methods to check the correctness.
-* void setPlayer(Player player); After execution, we need to use getPlayer() method to check the correctness.
 * void setCovered(boolean covered); After execution, we need to use isCovered() method to check the correctness.
-* void setRugId(int rugId); After execution, we need to use getRugId() method to check the correctness.
 * void setRug(Rug rug);we need to use isCovered() , getRugAmount() and getRugsList() to check the correctness;
-* Player getTopPlayer;need test top rug's owner to process the payment
+* void removePlayersRug(); need to check the state of the tile after remove a player's rugs
+* void removeAllRugs(); need to check the state of the tile after remove all of the rugs on it.
+* Player getTopPlayer();need test top rug's owner to process the payment
+
+### Board class
+* void getTile()
+* 
 ### Tools class
 * static boolean isNumber(String str)

@@ -66,7 +66,7 @@ public class Player {
      * get the status String of this player
      * @return status String
      */
-    public String statusString() {
+    public String getStatusString() {
         return color.getColorChar() + String.format("%03d", dirhamsAmount) + String.format("%02d", rugsAmount);
     }
 

@@ -55,7 +55,7 @@ public class Player {
     }
 
     /**
-     * set other status according to the String parameter
+     * set other status according to the String parameter.
      * @param status player string e.g. Pr00803i
      */
     public void setStatus(String status) {

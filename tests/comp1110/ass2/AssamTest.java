@@ -21,7 +21,7 @@ class AssamTest {
         Assertions.assertEquals(3, assam.getPositionY(), "Expected get 3, but got " + assam.getPositionX());
         Assertions.assertEquals(Assam.AssamFacing.TOP, assam.getFacing(), "Expected get TOP, but got " + assam.getFacing());
 
-        // invalid assam string
+        // invalid assam string.
         assam.setStatus("A11NS");
         assam.setStatus("A90N");
         assam.setStatus("A38N");
@@ -32,7 +32,7 @@ class AssamTest {
         Assertions.assertEquals(3, assam.getPositionY(), "Can't recognize invalid assam string");
         Assertions.assertEquals(Assam.AssamFacing.TOP, assam.getFacing(), "Can't recognize invalid assam string");
 
-        // valid assam string
+        // valid assam string.
         assam.setStatus("A12E");
         Assertions.assertEquals(1, assam.getPositionX(), "Expected get 1, but got " + assam.getPositionX());
         Assertions.assertEquals(2, assam.getPositionY(), "Expected get 2, but got " + assam.getPositionX());

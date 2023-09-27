@@ -71,6 +71,7 @@ public class Assam {
         this.facing = facingStatus;
     }
 
+
     public AssamFacing getFacing() {
         return facing;
     }

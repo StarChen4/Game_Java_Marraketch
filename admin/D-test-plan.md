@@ -30,12 +30,12 @@ static methods for which we have already provided unit tests.
 * String statusString();
 
 ### Rug class
-* Rug(int id); After execution, we need to use getId() method to check the correctness.
+* Rug(Player owner,int id); After execution, we need to use getId() and getOwner() method to check the correctness.
 * Rug(String status); After execution, we need to use getId(), getSeg1X(), getSeg2X(), getSeg1Y(), getSeg2Y() methods to check the correctness.
 * void setStatus(String status); After execution, we need to use getId(), getSeg1X(), getSeg2X(), getSeg1Y(), getSeg2Y() methods to check the correctness.
 * void setSegment1(int x, int y); After execution, we need to use getSeg1X(), getSeg1Y() methods to check the correctness.
 * void setSegment2(int x, int y); After execution, we need to use getSeg2X(), getSeg2Y() methods to check the correctness.
-* void setId(int id); After execution, we need to use getId() method to check the correctness.
+
 
 ### Tile class
 * Tile(String status, Player player); After execution, we need to use getPlayer(), isCovered(), getRugId() methods to check the correctness.
@@ -43,6 +43,7 @@ static methods for which we have already provided unit tests.
 * void setPlayer(Player player); After execution, we need to use getPlayer() method to check the correctness.
 * void setCovered(boolean covered); After execution, we need to use isCovered() method to check the correctness.
 * void setRugId(int rugId); After execution, we need to use getRugId() method to check the correctness.
-
+* void setRug(Rug rug);we need to use isCovered() , getRugAmount() and getRugsList() to check the correctness;
+* Player getTopPlayer;need test top rug's owner to process the payment
 ### Tools class
 * static boolean isNumber(String str)

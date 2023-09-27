@@ -10,7 +10,6 @@ public class Tile {
     private List<Rug> rugsList = new ArrayList<>();
     private Player player;
 
-    private int rugAmount;
     private boolean isCovered = false;
     private int rugId = -1;
     private int x;
@@ -24,7 +23,6 @@ public class Tile {
     public Tile(int x, int y) {
         this.x = x;
         this.y = y;
-        this.rugAmount = 0;
         this.isCovered = false;
     }
 
@@ -74,6 +72,7 @@ public class Tile {
      */
     public void setRug(Rug rug){
         this.rugsList.add(rug);
+        this.isCovered = true;
     }
 
     /**
@@ -83,6 +82,8 @@ public class Tile {
     public boolean removeTopRug(){
         if(!rugsList.isEmpty()){
             this.rugsList.remove(this.rugsList.size() - 1);
+            if(this.getRugAmount() == 0)
+                setCovered(false);
             return true;
         }
         else {
@@ -99,14 +100,18 @@ public class Tile {
     public boolean removePlayersRug(Player player){
         boolean playersRugRemoved = false;
         if(!rugsList.isEmpty()){
+            List<Rug> rugsToRemove = new ArrayList<>();
             for (Rug rug:this.rugsList) {
                 //remove all rugs that belong to this player
                 if (rug.getOwner() == player){
-                    this.rugsList.remove(rug);
-                    this.rugAmount -= 1;
+                    rugsToRemove.add(rug);
                     playersRugRemoved = true;
                 }
             }
+            // Remove all collected rugs from the original list
+            this.rugsList.removeAll(rugsToRemove);
+            if(this.getRugAmount() == 0)
+                setCovered(false);
             if (playersRugRemoved == false)
                 //if nothing has been removed
                 System.out.println("There is no rug belongs to this player");
@@ -124,6 +129,8 @@ public class Tile {
     public boolean removeAllRugs(){
         if(!rugsList.isEmpty()){
             this.rugsList.clear();
+            if(this.getRugAmount() == 0)
+                setCovered(false);
             return true;
         }
         else {
@@ -131,5 +138,13 @@ public class Tile {
             return false;
         }
     }
-
+    public List<Rug> getRugsList(){
+        return rugsList;
+    }
+    public int getRugAmount(){
+        return rugsList.size();
+    }
+    public Player getTopPlayer(){
+        return rugsList.get(rugsList.size()-1).getOwner();
+    }
 }

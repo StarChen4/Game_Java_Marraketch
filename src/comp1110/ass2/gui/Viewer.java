@@ -38,7 +38,7 @@ public class Viewer extends Application {
         }
 
         /**
-         * This is used to set rotate and layout of Assam.
+         * This is used to set rotate and layout of Assam .
          * @param state String of state.
          */
         void setStatus(String state) {

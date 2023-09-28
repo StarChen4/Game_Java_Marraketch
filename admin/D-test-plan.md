@@ -24,10 +24,8 @@ static methods for which we have already provided unit tests.
 * Player(PlayerColor color, int dirhamsAmount, int rugsAmount, boolean inGame);
 * Player(String status); After execution, we need to use getDirhamsAmount(), getRugsAmount(), isInGame() methods to check the correctness.
 * void setStatus(String status); After execution, we need to use getDirhamsAmount(), getRugsAmount(), isInGame() methods to check the correctness.
-* void setDirhamsAmount(int dirhamsAmount); After execution, we need to use getDirhamsAmount() method to check the correctness.
-* void setRugsAmount(int rugsAmount); After execution, we need to use getRugsAmount() method to check the correctness.
-* public void setInGame(boolean inGame); After execution, we need to use isInGame() method to check the correctness.
-* String statusString();
+* void payTo(Player player); need to check the dirhamsAmount after execution
+* void receiveDirhams(int dirhamsAmount);need to check the dirhamsAmount after execution
 
 ### Rug class
 * Rug(Player owner,int id); After execution, we need to use getId() and getOwner() method to check the correctness.

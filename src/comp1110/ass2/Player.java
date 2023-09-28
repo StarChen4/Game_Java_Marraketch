@@ -35,6 +35,10 @@ public class Player {
      * @param status player string e.g. Pr00803i
      */
     public Player(String status) {
+        //judge if the String is valid
+        if (status.length() != 8){
+            return;
+        }
         //set the player's color
         switch (status.charAt(1)) {
             case 'c':

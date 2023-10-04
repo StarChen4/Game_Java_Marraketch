@@ -12,7 +12,9 @@ import java.util.List;
  */
 public class Assam {
     /**
-     * Facing direction of assam
+     * An Enum of facing direction of assam
+     * @directionChar N -> Top, E -> Right, S -> Bottom, W -> Left
+     * @degrees angle degrees of direction
      */
     public enum AssamFacing {
         TOP("N", 0),
@@ -32,6 +34,7 @@ public class Assam {
         }
     }
 
+    // The default facing direction is top, and coordinate is (3,3)
     private AssamFacing facing = AssamFacing.TOP;
     private Coordinate position = new Coordinate(3, 3);
 
@@ -45,7 +48,7 @@ public class Assam {
     }
 
     /**
-     * Constructor: creates a new assam with parameter
+     * Constructor: creates a new assam with string
      *
      * @param status status string of assam
      */
@@ -95,30 +98,37 @@ public class Assam {
     }
 
     /**
-     * Task 13 Move assam some steps
+     * Some steps of Task 13:Move assam
      *
      * @param step Number of steps to move
      */
     public void move(int step) {
+        // clear the record of movement of the last round
         lastMoveRecords.clear();
         moveRecursion(step);
     }
 
     /**
      * Move the assam according to the rules using a recursive algorithm
-     *
+     * to make assam move visible
      * @param step Number of steps to move
      */
     private void moveRecursion(int step) {
         switch (facing) {
+            /**
+             * If Assam is not at the edge, then move on step to the edge
+             * If it's at the right-top / left-bottom corner
+             * then rotate itself and remain still
+             * If it's at other edge, then rotate itself and move(change x-position)
+             */
             case TOP -> {
                 if (position.y > 0) {
                     position.y -= 1;
                 } else {
                     if (position.x == 6) {
-                        // only rotate
                         facing = AssamFacing.LEFT;
-                    } else if (position.x == 0 || position.x == 2 || position.x == 4) {
+                    }
+                    else if (position.x == 0 || position.x == 2 || position.x == 4) {
                         position.x += 1;
                         facing = AssamFacing.BOTTOM;
                     } else {
@@ -190,11 +200,11 @@ public class Assam {
      * @param degrees The requested rotation, in degrees.
      */
     public void rotate(int degrees) {
+        // If not rotating to the right/left, do nothing
         if (degrees != 90 && degrees != 270) {
             return;
         }
-
-        // Degrees of current direction plus degrees of rotation; result mod 360
+        // Change direction of Assam according to the degree
         degrees = (degrees + facing.getDegrees()) % 360;
         switch (degrees) {
             case 0 -> facing = AssamFacing.TOP;

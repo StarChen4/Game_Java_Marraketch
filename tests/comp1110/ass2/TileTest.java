@@ -19,6 +19,7 @@ class TileTest {
     void setup(){
         // a red player with 30 dirhams and 15 rugs
         playerRed = new Player(PlayerColor.RED,30,15,true);
+        // a yellow player with 30 dirhams and 15 rugs
         playerYellow = new Player(PlayerColor.YELLOW,30,15,true);
         redRugs = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
@@ -37,6 +38,8 @@ class TileTest {
     void setCovered() {
         tile.setCovered(true);
         assertTrue(tile.isCovered());
+        tile.setCovered(false);
+        assertFalse(tile.isCovered());
     }
 
     @Test

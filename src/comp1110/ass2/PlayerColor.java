@@ -2,8 +2,14 @@ package comp1110.ass2;
 
 import javafx.scene.paint.Color;
 
-public enum PlayerColor
-{
+/**
+ * Description: This enum defines the Color of player
+ *
+ * @Author Diao Fu u7722376
+ * @Create 2023/10/03
+ * Version 1.0
+ */
+public enum PlayerColor {
     CYAN('c', Color.CYAN),
     YELLOW('y', Color.YELLOW),
     RED('r', Color.RED),
@@ -19,7 +25,8 @@ public enum PlayerColor
     public char getColorChar() {
         return colorChar;
     }
-    public Color getPainColor(){
+
+    public Color getPainColor() {
         return painColor;
     }
 }

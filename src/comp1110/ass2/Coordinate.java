@@ -1,15 +1,23 @@
 package comp1110.ass2;
 
+
+/**
+ * Description: This class defines the coordinate
+ *
+ * @Author Diao Fu u7722376
+ * @Create 2023/10/01
+ * Version 1.0
+ */
+
 public class Coordinate {
-    // int x
-    private int x;
-    // int y
-    private int y;
+    public int x;
+    public int y;
 
     /**
      * Constructor to create an instance of Coordinate
      *
-     * @param x,y
+     * @param x Coordinate x
+     * @param y Coordinate y
      */
     public Coordinate(int x, int y) {
         this.x = x;
@@ -17,19 +25,18 @@ public class Coordinate {
     }
 
     /**
-     * getter of x
-     * @return x
+     * ensure that .equals() method compares two objects correctly
+     *
+     * @param o other object that might be a Coordinate
+     * @return true if this object is equal/equivalent to the other object
      */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     *getter of y
-     * @return y
-     */
-    public int getY() {
-        return y;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coordinate position = (Coordinate) o;
+        return x == position.x && y == position.y;
     }
 }
+
 

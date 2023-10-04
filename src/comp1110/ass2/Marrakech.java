@@ -22,43 +22,18 @@ public class Marrakech {
      * @param rug A String representing the rug you are checking
      * @return true if the rug is valid, and false otherwise.
      */
-    public static boolean isRugValid(String gameString, String rug){
-        // FIXME: Task 4
-        // Check if the rug String is 7 characters long.
-        if (rug.length() != 7) {
-            return false;
-        }
-        // Check if the first character corresponds to the colour character of a player present in the game.
-        String firstStr = rug.substring(0, 1);
-        if (!"cyrp".contains(firstStr)) {
-            return false;
-        }
-        // Check if the next two characters represent a valid 2-digit ID number.
-        if (!Tools.isNumber(rug.substring(1))) {
-            return false;
-        }
-        // Check if the next 4 characters represent valid coordinates within the board boundaries.
-        for (int i = 3; i < 7; i++) {
-            char numberChar = rug.charAt(i);
-            if (Character.getNumericValue(numberChar) > 6) {
-                return false;
-            }
-        }
-        // Extract the board information from the gameString and check if the rug's coordinates are already on the board.
-        String boardString = gameString.substring(gameString.indexOf("B"));
-        if (boardString.contains(rug.substring(0, 3))) {
-            return false;
-        }
-
-        return true;
+    public static boolean isRugValid(String gameString, String rug) {
+        // Task 4
+        Board board = new Board();
+        board.setGameStatus(gameString);
+        return board.isRugValid(rug);
     }
 
     public static void main(String[] args) {
-        PlayerColor[] a = PlayerColor.values();
-        for (PlayerColor b:a){
-            System.out.println(b.getColorChar());
+        boolean a = Rug.isRugValid("c004131");
+        System.out.println(a);
 
-        }
+        // A05N
     }
 
     /**
@@ -76,12 +51,12 @@ public class Marrakech {
      * @return The result of the roll of the die meeting the criteria above
      */
     public static int rollDie() {
-        // FIXME: Task 6
-        int die = (int) (Math.random() * 6 + 1);// A random number between 1 and 6.
+        // Task 6
+        int die = (int) (Math.random() * 6 + 1);
         if (die == 5) {
-            die = 2;// Since there is no face that show 5, instead it to 2.
+            die = 2;
         } else if (die == 6) {
-            die = 3;// since there is no face that show 6, instead it to 3.
+            die = 3;
         }
         return die;
     }
@@ -95,8 +70,10 @@ public class Marrakech {
      * @return true if the game is over, or false otherwise.
      */
     public static boolean isGameOver(String currentGame) {
-        // FIXME: Task 8
-        return false;
+        // Task 8
+        Board board = new Board();
+        board.setGameStatus(currentGame);
+        return board.isGameOver();
     }
 
     /**
@@ -113,8 +90,10 @@ public class Marrakech {
      * rotation is illegal.
      */
     public static String rotateAssam(String currentAssam, int rotation) {
-        // FIXME: Task 9
-        return "";
+        // Task 9
+        Assam assam = new Assam(currentAssam);
+        assam.rotate(rotation);
+        return assam.getStatusString();
     }
 
     /**
@@ -129,8 +108,10 @@ public class Marrakech {
      * @return true if the placement is valid, and false otherwise.
      */
     public static boolean isPlacementValid(String gameState, String rug) {
-        // FIXME: Task 10
-        return false;
+        // Task 10
+        Board board = new Board();
+        board.setGameStatus(gameState);
+        return board.isPlacementValid(rug);
     }
 
     /**
@@ -144,8 +125,10 @@ public class Marrakech {
      * @return The amount of payment due, as an integer.
      */
     public static int getPaymentAmount(String gameString) {
-        // FIXME: Task 11
-        return -1;
+        // Task 11
+        Board board = new Board();
+        board.setGameStatus(gameString);
+        return board.getPaymentAmount();
     }
 
     /**
@@ -163,8 +146,10 @@ public class Marrakech {
      * @return A char representing the winner of the game as described above.
      */
     public static char getWinner(String gameState) {
-        // FIXME: Task 12
-        return '\0';
+        // Task 12
+        Board board = new Board();
+        board.setGameStatus(gameState);
+        return board.getWinner();
     }
 
     /**
@@ -178,9 +163,11 @@ public class Marrakech {
      * @param dieResult The result of the die, which determines the number of squares Assam will move.
      * @return A String representing Assam's state after the movement.
      */
-    public static String moveAssam(String currentAssam, int dieResult){
-        // FIXME: Task 13
-        return "";
+    public static String moveAssam(String currentAssam, int dieResult) {
+        // Task 13
+        Assam assam = new Assam(currentAssam);
+        assam.move(dieResult);
+        return assam.getStatusString();
     }
 
     /**
@@ -195,8 +182,13 @@ public class Marrakech {
      * or the input currentGame unchanged otherwise.
      */
     public static String makePlacement(String currentGame, String rug) {
-        // FIXME: Task 14
-        return "";
+        // Task 14
+        Board board = new Board();
+        board.setGameStatus(currentGame);
+        if (board.placeRug(rug)) {
+            return board.getGameString();
+        }
+        return currentGame;
     }
 
 }

@@ -1,150 +1,70 @@
 package comp1110.ass2;
 
-import comp1110.ass2.gui.Viewer;
-
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Description: This class defines the rug tile
+ *
+ * @Author Xing Chen
+ * Version 1.0
+ */
 public class Tile {
-    //rugs(segments) on this tile
-    private List<Rug> rugsList = new ArrayList<>();
-    private Player player;
-
-    private boolean isCovered = false;
+    // owner
+    private Player player = null;
     private int rugId = -1;
-    private int x;
-    private int y;
 
-    /**
-     * constructor: initialize the tile
-     * @param x coordinate on x axis
-     * @param y coordinate on y axis
-     */
-    public Tile(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.isCovered = false;
+    public Tile() {
     }
 
+    /**
+     * constructor: initialize the state of rug
+     *
+     * @param status status string
+     * @param player owner
+     */
     public Tile(String status, Player player) {
         setStatus(status, player);
     }
 
+    /**
+     * set the state of rug
+     *
+     * @param status status string
+     * @param player owner
+     */
     public void setStatus(String status, Player player) {
-        if (!Tools.isNumber(status.substring(1))){
+        if (Tools.isNumber(status.substring(1))) {
+            if (!status.contains("n00")) {
+                this.player = player;
+                rugId = Integer.parseInt(status.substring(1));
+            }
+        } else {
             System.out.println("Tile::setStatus| invalid rug string: " + status);
-            return;
-        }
-        if (!status.contains("n00")) {
-            this.player = player;
-            isCovered = true;
-            rugId = Integer.parseInt(status.substring(1));
         }
     }
 
+    /**
+     * set the state of rug
+     *
+     * @param rugId rug's id
+     * @param player owner
+     */
+    public void setStatus(int rugId, Player player) {
+        this.rugId = rugId;
+        this.player = player;
+    }
+
+    /**
+     * get owner
+     * @return owner
+     */
     public Player getPlayer() {
         return player;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public boolean isCovered() {
-        return isCovered;
-    }
-
-    public void setCovered(boolean covered) {
-        isCovered = covered;
-    }
-
+    /**
+     * get rug id
+     * @return rug id
+     */
     public int getRugId() {
         return rugId;
-    }
-
-    public void setRugId(int rugId) {
-        this.rugId = rugId;
-    }
-
-    /**
-     * place a rug segment on this tile
-     * @param rug the rug to be placed
-     */
-    public void setRug(Rug rug){
-        this.rugsList.add(rug);
-        this.isCovered = true;
-    }
-
-    /**
-     * remove the rug on top of this tile
-     * @return the result(true if successful, false if failed)
-     */
-    public boolean removeTopRug(){
-        if(!rugsList.isEmpty()){
-            this.rugsList.remove(this.rugsList.size() - 1);
-            if(this.getRugAmount() == 0)
-                setCovered(false);
-            return true;
-        }
-        else {
-            System.out.println("There is no rug on this tile");
-            return false;
-        }
-    }
-
-    /**
-     * if there are rugs on this tile
-     * remove all rugs belong to a particular player
-     * @return the result(true if successful, false if failed)
-     */
-    public boolean removePlayersRug(Player player){
-        boolean playersRugRemoved = false;
-        if(!rugsList.isEmpty()){
-            List<Rug> rugsToRemove = new ArrayList<>();
-            for (Rug rug:this.rugsList) {
-                //remove all rugs that belong to this player
-                if (rug.getOwner() == player){
-                    rugsToRemove.add(rug);
-                    playersRugRemoved = true;
-                }
-            }
-            // Remove all collected rugs from the original list
-            this.rugsList.removeAll(rugsToRemove);
-            if(this.getRugAmount() == 0)
-                setCovered(false);
-            if (playersRugRemoved == false)
-                //if nothing has been removed
-                System.out.println("There is no rug belongs to this player");
-        }
-        else {
-            System.out.println("There is no rug on this tile");
-        }
-        return playersRugRemoved;
-    }
-
-    /**
-     * remove all rugs on this tile
-     * @return the result(true if successful, false if failed)
-     */
-    public boolean removeAllRugs(){
-        if(!rugsList.isEmpty()){
-            this.rugsList.clear();
-            if(this.getRugAmount() == 0)
-                setCovered(false);
-            return true;
-        }
-        else {
-            System.out.println("There is no rug on this tile");
-            return false;
-        }
-    }
-    public List<Rug> getRugsList(){
-        return rugsList;
-    }
-    public int getRugAmount(){
-        return rugsList.size();
-    }
-    public Player getTopPlayer(){
-        return rugsList.get(rugsList.size()-1).getOwner();
     }
 }

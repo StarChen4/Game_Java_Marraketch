@@ -2,11 +2,19 @@ package comp1110.ass2;
 
 
 public class Assam {
+    /**
+     * A enum of Assam facing direction
+     * Assam can only face top,right,bottom,left
+     * those direction will be represented by a single char "N/E/S/W"
+     * and a number 0-270
+     */
     public enum AssamFacing {
         TOP("N", 0),
         RIGHT("E", 90),
         BOTTOM("S", 180),
         LEFT("W", 270);
+        // here can be reconstructed by changing the access modifier into public
+        // then those two method of this enum could be deleted
         private final String directionChar;
         private final int degrees;
 
@@ -28,16 +36,26 @@ public class Assam {
     private int positionX = 3;
     private int positionY = 3;
 
+    /**
+     * default modifier of Assam
+     * by giving the string "A33N"
+     * make it facing top and sitting at (3,3) which is middle of the board
+     */
     public Assam() {
         this("A33N");
     }
 
+    /**
+     * initialize Assam by giving a String status
+     * @param status
+     */
     public Assam(String status) {
         setStatus(status);
     }
 
 
     /**
+     * set status method, used by the constructor only
      * @param status status string e.g. A04N
      */
     public void setStatus(String status) {
@@ -45,6 +63,7 @@ public class Assam {
             System.out.println("Assam::setStatus| invalid assam string: " + status);
             return;
         }
+        //change Assam's facing direction based on the status string index 3 char
         AssamFacing facingStatus;
         switch (status.charAt(3)) {
             case 'N' -> facingStatus = AssamFacing.TOP;
@@ -56,6 +75,7 @@ public class Assam {
                 return;
             }
         }
+        //placing Assam based on the status string index 1-2 char
         if (!Tools.isNumber(status.substring(1, 3))) {
             System.out.println("Assam::setStatus| invalid assam string: " + status);
             return;
@@ -66,7 +86,6 @@ public class Assam {
             System.out.println("Assam::setStatus| invalid assam string: " + status);
             return;
         }
-
         positionX = statusX;
         positionY = statusY;
         this.facing = facingStatus;
@@ -105,6 +124,11 @@ public class Assam {
         this.positionY = positionY;
     }
 
+    /**
+     * get a string consist of Assam's status
+     * including a char 'A' at the beginning, position x, y, and the direction it's facing
+     * @return the string
+     */
     public String getStatusString() {
         return "A" + positionX + positionY + facing.directionChar;
     }

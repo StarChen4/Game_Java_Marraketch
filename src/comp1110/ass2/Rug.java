@@ -143,7 +143,7 @@ public class Rug {
 
     /**
      * Determine whether a rug String is valid.
-     *
+     * Does not check the color and id pair uniqueness
      * @param rug rug string
      * @return true if the rug is valid, and false otherwise.
      */

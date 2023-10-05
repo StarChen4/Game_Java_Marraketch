@@ -29,12 +29,7 @@ public class Marrakech {
         return board.isRugValid(rug);
     }
 
-    public static void main(String[] args) {
-        boolean a = Rug.isRugValid("c004131");
-        System.out.println(a);
 
-        // A05N
-    }
 
     /**
      * Roll the special Marrakech die and return the result.
@@ -97,7 +92,7 @@ public class Marrakech {
     }
 
     /**
-     * Determine whether a potential new placement is valid (i.e that it describes a legal way to place a rug).
+     * Determine whether a potential new placement is valid (i.e. that it describes a legal way to place a rug).
      * There are a number of rules which apply to potential new placements, which are detailed in the README but to
      * reiterate here:
      *   1. A new rug must have one edge adjacent to Assam (not counting diagonals)

@@ -54,6 +54,7 @@ This code provides good documentation, including class-to-class and method descr
 This helps other developers on the team understand the code.
 The code implements a custom JavaFX button class RealDice, which produces an animation effect of rolling dice.
 It followed Java code conventions, methods and variables properly named, and the style consistent throughout.
+
 Weaknesses:
 The code calls game.receiveDicePoint (diePoint) in timely.setOnFinished,
 assuming the game object is initialized correctly and the callback is handled correctly. 

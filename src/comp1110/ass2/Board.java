@@ -121,7 +121,13 @@ public class Board {
         Player p1 = tile1.getPlayer();
         Player p2 = tile2.getPlayer();
         // the rug must not completely cover another rug
-        return p1 == null || !p1.equals(p2) || (tile1.getRugId() != tile2.getRugId());
+
+        return  p1 == null // legal when only covering one segment of rug
+                // when covering two segments
+                //legal when those two do not belong to same player
+                || !p1.equals(p2)
+                // legal when covering two segment of one player but not an entire rug
+                || (tile1.getRugId() != tile2.getRugId());
     }
 
     /**
@@ -220,8 +226,8 @@ public class Board {
     }
 
     /**
-     * Use recursive algorithm to obtain all connected positions
-     *
+     * Use DFS algorithm to obtain all connected positions
+     * to calculate the amount to be paid
      * @param position        specify position
      * @param connPositions   store all connected positions
      * @param playerPositions all positions owned by this player
@@ -252,62 +258,67 @@ public class Board {
             return 'n';
         }
         // Initialize the hashmap used to store scores of active players.
-        HashMap<Character, Integer> scoreCount = new HashMap<>();
+        HashMap<Character, Integer> scoreBoard = new HashMap<>();
         for (PlayerColor color : PlayerColor.values()) {
             char pChar = color.getColorChar();
             if (players.get(pChar).isInGame()) {
-                scoreCount.put(color.getColorChar(), 0);
+                scoreBoard.put(color.getColorChar(), 0);
             }
         }
 
         // Count the positions owned by the active player on the board.
+        // and sum them up into scoreBoard
         for (int x = 0; x < BOARD_SIZE; x++) {
             for (int y = 0; y < BOARD_SIZE; y++) {
                 Player player = boardMatrix[x][y].getPlayer();
                 if (player != null && player.isInGame()) {
                     char pChar = player.getColor().getColorChar();
-                    scoreCount.put(pChar, scoreCount.get(pChar) + 1);
+                    scoreBoard.put(pChar, scoreBoard.get(pChar) + 1);
                 }
             }
         }
 
-        // Add the positions and the dirhams; and get max score
-        int maxScore = -1;
-        char maxScoreKey = ' ';
-        for (char pChar : scoreCount.keySet()) {
-            int score = scoreCount.get(pChar) + players.get(pChar).getDirhamsAmount();
-            scoreCount.put(pChar, score);
-            if (maxScore < score) {
-                maxScore = score;
-                maxScoreKey = pChar;
+        // Add the dirhams amount into scoreBoard
+        int highScore = -1;
+        char highScorePlayer = ' ';
+        for (char pChar : scoreBoard.keySet()) {
+            int score = scoreBoard.get(pChar) + players.get(pChar).getDirhamsAmount();
+            //update their scores and the highScore and highScorePlayer
+            scoreBoard.put(pChar, score);
+            if (highScore < score) {
+                highScore = score;
+                highScorePlayer = pChar;
             }
         }
 
         // Determine if there is a tie
-        boolean isTie = false;
-        for (char pChar : scoreCount.keySet()) {
-            if (pChar == maxScoreKey) {
-                continue;
+
+        boolean isTie = false; // flag of tie
+        for (char pChar : scoreBoard.keySet()) {
+            if (pChar == highScorePlayer) {
+                continue; // excluding the highScore player itself
             }
-            if (Objects.equals(scoreCount.get(pChar), scoreCount.get(maxScoreKey))) {
-                int dirhams1 = players.get(maxScoreKey).getDirhamsAmount();
+            // if there are two same score on scoreBoard
+            // then the one with higher dirhams amount wins
+            if (Objects.equals(scoreBoard.get(pChar), scoreBoard.get(highScorePlayer))) {
+                int dirhams1 = players.get(highScorePlayer).getDirhamsAmount();
                 int dirhams2 = players.get(pChar).getDirhamsAmount();
                 if (dirhams1 == dirhams2) {
                     isTie = true;
                 } else if (dirhams2 > dirhams1) {
-                    maxScoreKey = pChar;
+                    highScorePlayer = pChar;
                 }
             }
         }
         if (isTie) {
             return 't';
         }
-        return maxScoreKey;
+        return highScorePlayer;
     }
 
     /**
      * Task 14 Place a rug on the board
-     *
+     * -- for marrakech and for setting game status on board
      * @param rugString A String representation of the rug that is to be placed.
      * @return true if the rug is placement valid, and false otherwise.
      */
@@ -324,7 +335,7 @@ public class Board {
 
     /**
      * Place a rug on the board
-     *
+     * -- for GUI
      * @param owner owner of the rug
      * @param seg1  seg of rug
      * @param seg2  seg of rug
@@ -347,7 +358,7 @@ public class Board {
      * @param rug    the rug that is to be placed.
      */
     public void placeValidRug(Player player, Rug rug) {
-        // update player
+        // update player's rug to 'used'
         player.useRug(rug);
 
         // update matrix
@@ -415,6 +426,7 @@ public class Board {
      * @param boardStr board string
      */
     public void setBoardStatus(String boardStr) {
+        // clear all rugs on board
         for (Player player : players.values()) {
             player.getRugs().clear();
         }
@@ -431,14 +443,14 @@ public class Board {
                     Rug rug = new Rug(rugString);
                     HashMap<Integer, Rug> rugs = player.getRugs();
 
-                    // exist the rug's id in rugs list of the player, then use the existing rug
+                    // if there exists the rug's id in rugs list of the player, then use the existing rug
                     // Otherwise use the newly generated rug
                     if (rugs.containsKey(rug.getId())) {
                         rug = rugs.get(rug.getId());
                     } else {
                         rugs.put(rug.getId(), rug);
                     }
-                    rug.useSegment(x, y);
+                    rug.setSegment(x, y);
                 }
             }
         }
@@ -516,7 +528,11 @@ public class Board {
         return players;
     }
 
-    /////////////////////////////////Auto//////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+    ////////////////////////////// below are //////////////////////////////////
+    /////////////////////////////////  AI  ////////////////////////////////////
+    ///////////////////////////////// part ////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
 
     /**
      * get a valid rug position with AI
@@ -549,10 +565,13 @@ public class Board {
         Coordinate assamPos = assam.getPosition();
         ArrayList<Coordinate> neighbors = getNeighbors(assamPos);
         ArrayList<Rug> rugs = new ArrayList<>();
+        // build all possible valid rugs around assam
+        // first segment is its neighbor
         for (Coordinate neighbor : neighbors) {
-            // build a rug
+            // second segment is that neighbor's neighbor
             for (int x = -1; x < 2; x++) {
                 for (int y = -1; y < 2; y++) {
+                    // means (0,1) (1,0) (-1,0) (0,-1) four neighbor
                     if (Math.abs(x) + Math.abs(y) == 1) {
                         int x2 = neighbor.x + x;
                         int y2 = neighbor.y + y;

@@ -10,6 +10,11 @@ Component:
         Player, Coordinate, Rug and Tool
 
 ### Comments 
+Overall:
+    
+    Well done. 
+    Good object-oriented coding.
+    I've put some opinions below.
 
 Class Player:
     

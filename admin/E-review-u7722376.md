@@ -52,7 +52,7 @@ private final Game game;
 Advantages of the code:
 This code provides good documentation, including class-to-class and method descriptions. 
 This helps other developers on the team understand the code.
-The code implements a custom JavaFX button class RealDice, which produces an animation effect of rolling dice.
+The code implements a JavaFX button class RealDice, which produces an animation effect of rolling dice.
 It followed Java code conventions, methods and variables properly named, and the style consistent throughout.
 
 Weaknesses:

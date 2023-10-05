@@ -66,7 +66,7 @@ public class Rug {
      * @param x coordinate x
      * @param y coordinate y
      */
-    public void useSegment(int x, int y) {
+    public void setSegment(int x, int y) {
         if (x < 0 || y < 0 || x > 6 || y > 6) {
             System.out.println("Rug::SetSegment1| invalid value: x=" + x + ", y=" + y);
             return;

@@ -450,7 +450,7 @@ public class Board {
                     } else {
                         rugs.put(rug.getId(), rug);
                     }
-                    rug.useSegment(x, y);
+                    rug.setSegment(x, y);
                 }
             }
         }

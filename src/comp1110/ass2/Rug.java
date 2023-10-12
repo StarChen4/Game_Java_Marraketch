@@ -3,8 +3,8 @@ package comp1110.ass2;
 /**
  * Description: This class defines the rug
  *
- * @Author Diao Fu u7722376
- * @Create 2023/10/02
+ * @author Diao Fu u7722376
+ *  2023/10/02
  * Version 1.0
  */
 public class Rug {
@@ -120,6 +120,7 @@ public class Rug {
     /**
      * set id
      * @param id id of the rug
+     * @author Xing Chen
      */
     public void setId(int id) {
         this.id = id;

@@ -534,19 +534,189 @@ public class Board {
     ///////////////////////////////// part ////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
+
+    /////////////////////////////////////////////////////////////
+    /////////////////////// advanced AI  ////////////////////////
+    //// able to calculate benefits before each placement ///////
+    /////// able to calculate risk before each rotate ///////////
+    /////////////////////////////////////////////////////////////
+
     /**
-     * get a valid rug position with AI
-     *
+     * Get a valid rug position with AI
+     * this will give AI a rug with benefits when placed
+     * if the rug will cover other players rug
+     * and if the rug will connect with rugs of this player that are already on board
      * @param player current player
      * @return rug
      */
     public Rug getAiValidRug(Player player) {
-        // TODO
-        return getRandomValidRug();
+        ArrayList<Rug> rugs = getValidRugs();
+        double maxScore = -1;
+        Rug selectedRud = null;
+        for (Rug rug : rugs) {
+            double score = controlScore(rug, player);
+            if (score > maxScore) {
+                maxScore = score;
+                selectedRud = rug;
+            }
+        }
+        return selectedRud;
     }
 
     /**
-     * get a valid rug position with random
+     * This method will be called only by getValidRug()
+     * Calculate the incoming benefit for a given player of a rug when placed
+     * Score is build like this:
+     * covering player own rug -- 0
+     * covering other players rug -- 0.5 for each segment
+     * connecting with player own rugs -- 0.5 for each connection
+     * covering whole row/column -- 2
+     * @param rug the rug to be placed, with a pair of coordinates
+     * @param player the owner of the rug
+     * @return the score of this placement
+     */
+    private double controlScore(Rug rug, Player player) {
+        Coordinate seg1 = rug.getSeg1();
+        Coordinate seg2 = rug.getSeg2();
+        double score = 0.0;
+
+        // Recover self rug
+        if (boardMatrix[seg1.x][seg1.y].getPlayer() == player || boardMatrix[seg2.x][seg2.y].getPlayer() == player) {
+            return 0;
+        }
+
+        // Rewards are placed where the rug of other player
+        if (boardMatrix[seg1.x][seg1.y].getPlayer() != null) {
+            score += 0.5;
+        }
+        if (boardMatrix[seg2.x][seg2.y].getPlayer() != null) {
+            score += 0.5;
+        }
+
+        // The more connected locations, the more rewards
+        score += getConnectSum(rug, player) * 0.5;
+
+        // Check row control
+        boolean fullRow = true;
+        for (int col = 0; col < BOARD_SIZE; col++) {
+            if ((seg1.x != col && boardMatrix[seg1.x][col].getPlayer() != player) &&
+                    (seg2.x != col && boardMatrix[seg2.x][col].getPlayer() != player)) {
+                fullRow = false;
+                break;
+            }
+        }
+        if (fullRow) {
+            score += 2.0;
+        }
+
+        // Check column control
+        boolean fullColumn = true;
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            if ((seg1.y != row && boardMatrix[row][seg1.y].getPlayer() != player) &&
+                    (seg2.y != row && boardMatrix[row][seg2.y].getPlayer() != player)) {
+                fullColumn = false;
+                break;
+            }
+        }
+        if (fullColumn) {
+            score += 2.0;
+        }
+        return score;
+    }
+
+    /**
+     * To get a number of connected rugs with given rug of given player
+     * @param rug
+     * @param player
+     * @return the amount of connecting rugs
+     */
+    public int getConnectSum(Rug rug, Player player) {
+
+        // Get all positions owned by this player
+        ArrayList<Coordinate> playerPositions = new ArrayList<>();
+        for (int x = 0; x < BOARD_SIZE; x++) {
+            for (int y = 0; y < BOARD_SIZE; y++) {
+                if (boardMatrix[x][y].getPlayer() == player) {
+                    playerPositions.add(new Coordinate(x, y));
+                }
+            }
+        }
+        // store all connected positions
+        ArrayList<Coordinate> connPositions = new ArrayList<>();
+        Coordinate seg1 = rug.getSeg1();
+        Coordinate seg2 = rug.getSeg2();
+        connPositions.add(seg1);
+        countPaymentRecursion(seg1, connPositions, playerPositions);
+        connPositions.add(seg2);
+        countPaymentRecursion(seg2, connPositions, playerPositions);
+        return connPositions.size();
+    }
+
+    /**
+     * Mainly used by AI for decision making.
+     * Calculation for the risk of the next move
+     * given a degree of assam will be rotated
+     * @param player player who is going to move assam
+     * @param degrees degrees the player will choose
+     * @return the possible total cost of this move
+     */
+    private double riskFactor(Player player, int degrees) {
+        double factor = 0;
+        Board tmpBoard = new Board();
+        tmpBoard.setGameStatus(this.getGameString());
+        Assam tmpAssam = tmpBoard.assam;
+        tmpAssam.rotate(degrees);
+        Tile[][] tmpMatrix = tmpBoard.getBoardMatrix();
+        // risk where the assam is likely to land (represent by amountToPay)
+        for (int i = 1; i < 5; i++) {
+            tmpAssam.move(1);
+            Coordinate position = tmpAssam.getPosition();
+            // If the place it's moving to is occupied by other player
+            // calculate the amount of dirhams that will be paid
+            if (tmpMatrix[position.x][position.y].getPlayer() != null &&
+                    !tmpMatrix[position.x][position.y].getPlayer().equals(player)) {
+                int pay = tmpBoard.getPaymentAmount();
+                // Positions with higher probability increase rewards
+                if (i == 3 || i == 4) {
+                    factor += pay * 1.5;
+                } else {
+                    factor += pay * 1.0;
+                }
+            }
+        }
+        return factor;
+    }
+    /**
+     * Compare different rotate degrees' risk and choose the smallest one
+     * @param player the player of this round
+     * @return the smallest degree
+     */
+    public int getAiAssamRotate(Player player) {
+        int[] degrees = new int[]{270, 0, 90};
+        double minRisk = Double.MAX_VALUE;
+        int minRiskDegrees = 0;
+        for (int d : degrees) {
+            double risk = riskFactor(player, d);
+            if (risk < minRisk) {
+                minRisk = risk;
+                minRiskDegrees = d;
+            }
+        }
+        return minRiskDegrees;
+    }
+    /////////////////////////////////////////////////////////////
+    ///////////////////////// dump AI  //////////////////////////
+    ////////////// place rugs randomly with no strategy /////////
+    /////////////////////////////////////////////////////////////
+
+    // get a random rotate degree
+    public int getRandomAssamRotate() {
+        int[] degrees = new int[]{270, 0, 90};
+        int index = (int) (Math.random() * 3);
+        return degrees[index];
+    }
+    /**
+     * get a valid rug position randomly
      *
      * @return rug
      */

@@ -132,7 +132,7 @@ public class Game extends Application {
             realAssam.setClickable(false);
             int degrees = 0;
             if ("AI".equals(playerType)) {
-                degrees = board.getAiAssamRotate(player);
+                degrees = board.getAssamRotateAI(player);
             } else {
                 degrees = board.getRandomAssamRotate();
             }
@@ -217,7 +217,7 @@ public class Game extends Application {
         if (!"Human".equals(playerType)) {
             Rug rug;
             if ("AI".equals(playerType)) {
-                rug = board.getAiValidRug(player);
+                rug = board.getBestRug(player);
             } else {
                 rug = board.getRandomValidRug();
             }

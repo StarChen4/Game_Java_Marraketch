@@ -155,7 +155,7 @@ public class Board {
 
     /**
      * Get the positions adjacent to specify position
-     *
+     * which are the up, down, right, left
      * @param position specify position
      * @return neighbors of specify position
      */
@@ -208,7 +208,19 @@ public class Board {
             return 0;
         }
 
-        // Get all positions owned by this player
+        // store all connected positions
+        ArrayList<Coordinate> connPositions = new ArrayList<>();
+        connPositions.add(position);
+        findConnections(position, connPositions, getPlayerPositions(player));
+        return connPositions.size();
+    }
+
+    /**
+     * Get all positions owned by this player
+     * @param player
+     * @return An arraylist of coordinates of tiles owned by this player
+     */
+    public ArrayList<Coordinate> getPlayerPositions(Player player){
         ArrayList<Coordinate> playerPositions = new ArrayList<>();
         for (int x = 0; x < BOARD_SIZE; x++) {
             for (int y = 0; y < BOARD_SIZE; y++) {
@@ -217,29 +229,24 @@ public class Board {
                 }
             }
         }
-
-        // store all connected positions
-        ArrayList<Coordinate> connPositions = new ArrayList<>();
-        connPositions.add(position);
-        countPaymentRecursion(position, connPositions, playerPositions);
-        return connPositions.size();
+        return playerPositions;
     }
 
     /**
      * Use DFS algorithm to obtain all connected positions
      * to calculate the amount to be paid
-     * @param position        specify position
-     * @param connPositions   store all connected positions
+     * @param position        a given position
+     * @param connPositions   stores all connected positions, shared by every recursion
      * @param playerPositions all positions owned by this player
      */
-    private void countPaymentRecursion(Coordinate position, ArrayList<Coordinate> connPositions, ArrayList<Coordinate> playerPositions) {
+    private void findConnections(Coordinate position, ArrayList<Coordinate> connPositions, ArrayList<Coordinate> playerPositions) {
 
         ArrayList<Coordinate> neighbors = getNeighbors(position);
         for (Coordinate playerPos : playerPositions) {
             for (Coordinate neighbor : neighbors) {
                 if (playerPos.equals(neighbor) && !connPositions.contains(playerPos)) {
                     connPositions.add(playerPos);
-                    countPaymentRecursion(playerPos, connPositions, playerPositions);
+                    findConnections(playerPos, connPositions, playerPositions);
                 }
             }
         }
@@ -543,28 +550,30 @@ public class Board {
 
     /**
      * Get a valid rug position with AI
-     * this will give AI a rug with benefits when placed
-     * if the rug will cover other players rug
+     * if the rug will cover other players rugs
      * and if the rug will connect with rugs of this player that are already on board
+     * the placement will be rewarded with more scores
+     * this will give AI a rug that has the most score to place
      * @param player current player
-     * @return rug
+     * @return a Rug with the highest score
      */
-    public Rug getAiValidRug(Player player) {
-        ArrayList<Rug> rugs = getValidRugs();
+    public Rug getBestRug(Player player) {
+        //choose the best rug in all valid rugs
+        ArrayList<Rug> rugs = getValidRugsList();
         double maxScore = -1;
-        Rug selectedRud = null;
+        Rug bestRug = null;
         for (Rug rug : rugs) {
-            double score = controlScore(rug, player);
+            double score = predictScore(rug, player);
             if (score > maxScore) {
                 maxScore = score;
-                selectedRud = rug;
+                bestRug = rug;
             }
         }
-        return selectedRud;
+        return bestRug;
     }
 
     /**
-     * This method will be called only by getValidRug()
+     * This method will be called by getBestRug() above
      * Calculate the incoming benefit for a given player of a rug when placed
      * Score is build like this:
      * covering player own rug -- 0
@@ -575,51 +584,53 @@ public class Board {
      * @param player the owner of the rug
      * @return the score of this placement
      */
-    private double controlScore(Rug rug, Player player) {
+    private double predictScore(Rug rug, Player player) {
+        //reward weight system
+        double rewardCoverOwn = 0.0;
+        double rewardCoverOthers = 0.5;
+        double rewardConnections = 0.5;
+        double rewardCoverRowCol = 2.0;
         Coordinate seg1 = rug.getSeg1();
         Coordinate seg2 = rug.getSeg2();
         double score = 0.0;
 
-        // Recover self rug
+        // Covering own rugs will not be rewarded
         if (boardMatrix[seg1.x][seg1.y].getPlayer() == player || boardMatrix[seg2.x][seg2.y].getPlayer() == player) {
-            return 0;
+            return rewardCoverOwn;
         }
 
-        // Rewards are placed where the rug of other player
-        if (boardMatrix[seg1.x][seg1.y].getPlayer() != null) {
-            score += 0.5;
-        }
-        if (boardMatrix[seg2.x][seg2.y].getPlayer() != null) {
-            score += 0.5;
+        // Covering the rugs of other player
+        if (boardMatrix[seg1.x][seg1.y].getPlayer() != null || boardMatrix[seg2.x][seg2.y].getPlayer() != null) {
+            score += rewardCoverOthers;
         }
 
         // The more connected locations, the more rewards
-        score += getConnectSum(rug, player) * 0.5;
+        score += getConnectionAmount(rug, player) * rewardConnections;
 
-        // Check row control
+        // Check if it will have whole row control
         boolean fullRow = true;
         for (int col = 0; col < BOARD_SIZE; col++) {
-            if ((seg1.x != col && boardMatrix[seg1.x][col].getPlayer() != player) &&
-                    (seg2.x != col && boardMatrix[seg2.x][col].getPlayer() != player)) {
+            if ((seg1.x != col && boardMatrix[col][seg1.y].getPlayer() != player) &&
+                    (seg2.x != col && boardMatrix[col][seg2.y].getPlayer() != player)) {
                 fullRow = false;
                 break;
             }
         }
         if (fullRow) {
-            score += 2.0;
+            score += rewardCoverRowCol;
         }
 
-        // Check column control
+        // Check if it will have whole column control
         boolean fullColumn = true;
         for (int row = 0; row < BOARD_SIZE; row++) {
-            if ((seg1.y != row && boardMatrix[row][seg1.y].getPlayer() != player) &&
-                    (seg2.y != row && boardMatrix[row][seg2.y].getPlayer() != player)) {
+            if ((seg1.y != row && boardMatrix[seg1.x][row].getPlayer() != player) &&
+                    (seg2.y != row && boardMatrix[seg2.x][row].getPlayer() != player)) {
                 fullColumn = false;
                 break;
             }
         }
         if (fullColumn) {
-            score += 2.0;
+            score += rewardCoverRowCol;
         }
         return score;
     }
@@ -630,45 +641,41 @@ public class Board {
      * @param player
      * @return the amount of connecting rugs
      */
-    public int getConnectSum(Rug rug, Player player) {
+    public int getConnectionAmount(Rug rug, Player player) {
 
         // Get all positions owned by this player
-        ArrayList<Coordinate> playerPositions = new ArrayList<>();
-        for (int x = 0; x < BOARD_SIZE; x++) {
-            for (int y = 0; y < BOARD_SIZE; y++) {
-                if (boardMatrix[x][y].getPlayer() == player) {
-                    playerPositions.add(new Coordinate(x, y));
-                }
-            }
-        }
+        ArrayList<Coordinate> playerPositions = getPlayerPositions(player);
         // store all connected positions
         ArrayList<Coordinate> connPositions = new ArrayList<>();
         Coordinate seg1 = rug.getSeg1();
         Coordinate seg2 = rug.getSeg2();
         connPositions.add(seg1);
-        countPaymentRecursion(seg1, connPositions, playerPositions);
+        findConnections(seg1, connPositions, playerPositions);
         connPositions.add(seg2);
-        countPaymentRecursion(seg2, connPositions, playerPositions);
+        findConnections(seg2, connPositions, playerPositions);
         return connPositions.size();
     }
 
     /**
-     * Mainly used by AI for decision making.
+     * Mainly used by AI for decision-making.
      * Calculation for the risk of the next move
      * given a degree of assam will be rotated
      * @param player player who is going to move assam
      * @param degrees degrees the player will choose
      * @return the possible total cost of this move
      */
-    private double riskFactor(Player player, int degrees) {
-        double factor = 0;
+    private double riskCalculation(Player player, int degrees) {
+        int MAX_DICE_POINT = 4;
+        double regularRiskWeight = 1.0;
+        double higherRiskWeight = 1.5;
+        double riskScore = 0;
         Board tmpBoard = new Board();
         tmpBoard.setGameStatus(this.getGameString());
         Assam tmpAssam = tmpBoard.assam;
         tmpAssam.rotate(degrees);
         Tile[][] tmpMatrix = tmpBoard.getBoardMatrix();
         // risk where the assam is likely to land (represent by amountToPay)
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i < MAX_DICE_POINT + 1; i++) {
             tmpAssam.move(1);
             Coordinate position = tmpAssam.getPosition();
             // If the place it's moving to is occupied by other player
@@ -676,27 +683,28 @@ public class Board {
             if (tmpMatrix[position.x][position.y].getPlayer() != null &&
                     !tmpMatrix[position.x][position.y].getPlayer().equals(player)) {
                 int pay = tmpBoard.getPaymentAmount();
-                // Positions with higher probability increase rewards
-                if (i == 3 || i == 4) {
-                    factor += pay * 1.5;
+                // Positions with higher probability increase risks
+                // in this dice is 2 and 3
+                if (i == 3 || i == 2) {
+                    riskScore += pay * higherRiskWeight;
                 } else {
-                    factor += pay * 1.0;
+                    riskScore += pay * regularRiskWeight;
                 }
             }
         }
-        return factor;
+        return riskScore;
     }
     /**
      * Compare different rotate degrees' risk and choose the smallest one
      * @param player the player of this round
      * @return the smallest degree
      */
-    public int getAiAssamRotate(Player player) {
-        int[] degrees = new int[]{270, 0, 90};
+    public int getAssamRotateAI(Player player) {
+        int[] degrees = new int[]{Rotation.LEFT.degree, Rotation.REMAIN_STILL.degree, Rotation.RIGHT.degree};
         double minRisk = Double.MAX_VALUE;
         int minRiskDegrees = 0;
         for (int d : degrees) {
-            double risk = riskFactor(player, d);
+            double risk = riskCalculation(player, d);
             if (risk < minRisk) {
                 minRisk = risk;
                 minRiskDegrees = d;
@@ -711,7 +719,7 @@ public class Board {
 
     // get a random rotate degree
     public int getRandomAssamRotate() {
-        int[] degrees = new int[]{270, 0, 90};
+        int[] degrees = new int[]{Rotation.LEFT.degree, Rotation.REMAIN_STILL.degree, Rotation.RIGHT.degree};
         int index = (int) (Math.random() * 3);
         return degrees[index];
     }
@@ -721,7 +729,7 @@ public class Board {
      * @return rug
      */
     public Rug getRandomValidRug() {
-        ArrayList<Rug> rugs = getValidRugs();
+        ArrayList<Rug> rugs = getValidRugsList();
         int index = (int) (Math.random() * rugs.size());
         return rugs.get(index);
     }
@@ -731,7 +739,7 @@ public class Board {
      *
      * @return list of valid rugs
      */
-    private ArrayList<Rug> getValidRugs() {
+    private ArrayList<Rug> getValidRugsList() {
         Coordinate assamPos = assam.getPosition();
         ArrayList<Coordinate> neighbors = getNeighbors(assamPos);
         ArrayList<Rug> rugs = new ArrayList<>();

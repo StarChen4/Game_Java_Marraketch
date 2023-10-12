@@ -6,6 +6,8 @@ import comp1110.ass2.PlayerColor;
 import javafx.scene.Group;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -129,7 +131,7 @@ public class RealBoard extends Group {
      *
      * @param players players of game
      */
-    public void setSoreBoard(HashMap<Character, Player> players) {
+    public void setScoreBoard(HashMap<Character, Player> players) {
         for (Player player : players.values()) {
             char pChar = player.getColor().getColorChar();
             rugLabels.get(pChar).setText(String.valueOf(player.getRugsAmount()));
@@ -143,49 +145,56 @@ public class RealBoard extends Group {
      */
     private void makeBoard() {
 
-        // Draw backGround
-        Rectangle ground = new Rectangle(0, 0, GROUND_SIZE, GROUND_SIZE);
-        ground.setFill(Color.web("#FFFFEE"));
-        this.getChildren().add(ground);
+//        // Draw backGround
+//        Rectangle ground = new Rectangle(0, 0, GROUND_SIZE, GROUND_SIZE);
+//        ground.setFill(Color.web("#FFFFEE"));
+//        this.getChildren().add(ground);
+//
+//        // Draw track on the edge of the board
+//        Color circleColor = Color.web("#FFCC99");
+//        for (int i = 0; i < 4; i++) {
+//            Circle circle = new Circle(BOARD_START + (1 + 2 * i) * GRID_SIZE, BOARD_START,
+//                    GRID_SIZE / 2., circleColor);
+//            this.getChildren().add(circle);
+//            circle = new Circle(BOARD_START + 2 * i * GRID_SIZE, BOARD_START + BOARD_SIZE,
+//                    GRID_SIZE / 2., circleColor);
+//            this.getChildren().add(circle);
+//            circle = new Circle(BOARD_START, BOARD_START + (1 + 2 * i) * GRID_SIZE,
+//                    GRID_SIZE / 2., circleColor);
+//            this.getChildren().add(circle);
+//            circle = new Circle(BOARD_START + BOARD_SIZE, BOARD_START + 2 * i * GRID_SIZE,
+//                    GRID_SIZE / 2., circleColor);
+//            this.getChildren().add(circle);
+//        }
+//
+//        // Draw grid of the board
+//        Color lineColor = Color.GREY;
+//        double lineWidth = 3.0;
+//        Rectangle border = new Rectangle(BOARD_START, BOARD_START, BOARD_SIZE, BOARD_SIZE);
+//        border.setStroke(lineColor);
+//        border.setStrokeWidth(lineWidth);
+//        border.setFill(Color.web("#FF9900"));
+//        this.getChildren().add(border);
+//        for (int i = 1; i < 7; i++) {
+//            Line line = new Line(BOARD_START, BOARD_START + GRID_SIZE * i,
+//                    BOARD_START + BOARD_SIZE, BOARD_START + GRID_SIZE * i);
+//            line.setStrokeWidth(3);
+//            line.setStroke(lineColor);
+//            this.getChildren().add(line);
+//
+//            line = new Line(BOARD_START + GRID_SIZE * i, BOARD_START,
+//                    BOARD_START + GRID_SIZE * i, BOARD_START + BOARD_SIZE);
+//            line.setStrokeWidth(lineWidth);
+//            line.setStroke(lineColor);
+//            this.getChildren().add(line);
+//        }
 
-        // Draw track on the edge of the board
-        Color circleColor = Color.web("#FFCC99");
-        for (int i = 0; i < 4; i++) {
-            Circle circle = new Circle(BOARD_START + (1 + 2 * i) * GRID_SIZE, BOARD_START,
-                    GRID_SIZE / 2., circleColor);
-            this.getChildren().add(circle);
-            circle = new Circle(BOARD_START + 2 * i * GRID_SIZE, BOARD_START + BOARD_SIZE,
-                    GRID_SIZE / 2., circleColor);
-            this.getChildren().add(circle);
-            circle = new Circle(BOARD_START, BOARD_START + (1 + 2 * i) * GRID_SIZE,
-                    GRID_SIZE / 2., circleColor);
-            this.getChildren().add(circle);
-            circle = new Circle(BOARD_START + BOARD_SIZE, BOARD_START + 2 * i * GRID_SIZE,
-                    GRID_SIZE / 2., circleColor);
-            this.getChildren().add(circle);
-        }
-
-        // Draw grid of the board
-        Color lineColor = Color.GREY;
-        double lineWidth = 3.0;
-        Rectangle border = new Rectangle(BOARD_START, BOARD_START, BOARD_SIZE, BOARD_SIZE);
-        border.setStroke(lineColor);
-        border.setStrokeWidth(lineWidth);
-        border.setFill(Color.web("#FF9900"));
-        this.getChildren().add(border);
-        for (int i = 1; i < 7; i++) {
-            Line line = new Line(BOARD_START, BOARD_START + GRID_SIZE * i,
-                    BOARD_START + BOARD_SIZE, BOARD_START + GRID_SIZE * i);
-            line.setStrokeWidth(3);
-            line.setStroke(lineColor);
-            this.getChildren().add(line);
-
-            line = new Line(BOARD_START + GRID_SIZE * i, BOARD_START,
-                    BOARD_START + GRID_SIZE * i, BOARD_START + BOARD_SIZE);
-            line.setStrokeWidth(lineWidth);
-            line.setStroke(lineColor);
-            this.getChildren().add(line);
-        }
+        // Draw game board
+        Image boardimage = new Image("file:src/comp1110/ass2/artResources/Board.png");
+        ImageView board = new ImageView(boardimage);
+        board.setFitWidth(640);
+        board.setFitHeight(640);
+        this.getChildren().add(board);
 
         // Add status display panel
         GridPane playersTable = new GridPane();

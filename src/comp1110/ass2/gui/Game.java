@@ -78,7 +78,7 @@ public class Game extends Application {
             char colorChar = color.getColorChar();
             players.add(board.getPlayers().get(colorChar));
         }
-        realBoard.setSoreBoard(board.getPlayers());
+        realBoard.setScoreBoard(board.getPlayers());
 
         // Start the game with player 0
         currPlayerIndex = 0;
@@ -195,7 +195,7 @@ public class Game extends Application {
 
             // Payment between players， Update scoreboard
             board.payment(players.get(currPlayerIndex));
-            realBoard.setSoreBoard(board.getPlayers());
+            realBoard.setScoreBoard(board.getPlayers());
 
             // Step 3. Enable dragging of rug icon and wait for the currently active player to place a rug.
             enableDragRug();
@@ -255,7 +255,7 @@ public class Game extends Application {
             realBoard.getChildren().add(seg2);
             rugSegments.add(seg1);
             rugSegments.add(seg2);
-            realBoard.setSoreBoard(board.getPlayers());
+            realBoard.setScoreBoard(board.getPlayers());
 
             // Switch to next player
             do {

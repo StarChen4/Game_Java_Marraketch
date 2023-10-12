@@ -60,7 +60,7 @@ public class Viewer extends Application {
         realAssam.move(assam.getPosition(), assam.getFacing());
 
         // set scoreboard for each player
-        realBoard.setSoreBoard(board.getPlayers());
+        realBoard.setScoreBoard(board.getPlayers());
 
         // set UI rugs
         for (int x = 0; x < TILE_ROW; x++) {

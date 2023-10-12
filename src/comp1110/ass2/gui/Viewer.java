@@ -32,7 +32,7 @@ public class Viewer extends Application {
     private static final int TILE_ROW = RealBoard.TILE_ROW;
 
     // UI assam
-    private final RealAssam realAssam = new RealAssam();
+    private final RealAssam realAssam = new RealAssam(null);
     // The UI segment of rug has been placed
     private final ArrayList<RugSegment> rugSegments = new ArrayList<>();
 

@@ -15,14 +15,28 @@ import javafx.scene.shape.Polygon;
 public class RealAssam extends Polygon {
     public static int BOARD_START = RealBoard.BOARD_START;
     public static int GRID_SIZE = RealBoard.GRID_SIZE;
+    // whether it can be clicked for rotate
+    private boolean clickable = false;
 
     /**
      * draw an icon
      */
-    RealAssam() {
+    RealAssam(Game game) {
         super();
         this.getPoints().addAll(0., 0., 30., 30., 0., -30., -30., 30.0, 0., 0.);
         this.setFill(Color.web("#0c8918"));
+
+        this.setOnMousePressed(event -> {
+            if (!clickable) {
+                return;
+            }
+            clickable = false;
+            int degrees = 270;
+            if (event.isSecondaryButtonDown()) {
+                degrees = 90;
+            }
+            game.receiveAssamRotate(degrees);
+        });
     }
 
 
@@ -36,5 +50,9 @@ public class RealAssam extends Polygon {
         this.setLayoutX(BOARD_START + (position.x + 0.5) * GRID_SIZE);
         this.setLayoutY(BOARD_START + (position.y + 0.5) * GRID_SIZE);
         this.setRotate(facing.getDegrees());
+    }
+
+    public void setClickable(boolean clickable) {
+        this.clickable = clickable;
     }
 }

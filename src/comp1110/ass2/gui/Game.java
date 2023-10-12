@@ -30,7 +30,7 @@ public class Game extends Application {
     // bord UI
     private final RealBoard realBoard = new RealBoard(WINDOW_WIDTH, WINDOW_HEIGHT);
     // assam icon
-    private final RealAssam realAssam = new RealAssam();
+    private final RealAssam realAssam = new RealAssam(this);
     // draggable rug icon
     private final DraggableRugFlag rugFlag = new DraggableRugFlag(this);
     // dice button
@@ -96,22 +96,27 @@ public class Game extends Application {
         }
         rugSegments.clear();
 
-        // Step 1. Enable the dice button and wait for the currently active player to roll the dice
-        enableRollDie();
+        // Step 1. Enable rotate assam, enable the dice button and wait for the currently active player to roll the dice
+        enableRotateAssamAndRollDie();
     }
 
     /**
+     * Enable rotate assam
      * Sets the color of the rug icon to the color of the currently active player
      * Enable the dice button and wait for the currently active player to roll the dice
      */
-    public void enableRollDie() {
+    public void enableRotateAssamAndRollDie() {
+        Player player = players.get(currPlayerIndex);
+
+        // enable click assam to rotate
+        realAssam.setClickable(true);
 
         // Sets the color of the rug icon to the color of the currently active player
         // Disable dragging of rug icon
         if (!root.getChildren().contains(rugFlag)) {
             root.getChildren().add(rugFlag);
         }
-        rugFlag.setFill(players.get(currPlayerIndex).getColor().getPainColor());
+        rugFlag.setFill(player.getColor().getPainColor());
         rugFlag.setDraggable(false);
 
         // Enable the dice button
@@ -121,12 +126,40 @@ public class Game extends Application {
         diceButton.setDisable(false);
         diceButton.setText("Dice");
 
-        // if player type  is not Human, then Auto click dice button
-        String playerType = realBoard.getPlayerType(players.get(currPlayerIndex));
+        // if player type  is not Human, then Auto rotate assam and click dice button
+        String playerType = realBoard.getPlayerType(player);
         if (!"Human".equals(playerType)) {
+            realAssam.setClickable(false);
+            int degrees = 0;
+            if ("AI".equals(playerType)) {
+                degrees = board.getAiAssamRotate(player);
+            } else {
+                degrees = board.getRandomAssamRotate();
+            }
+            rotateAssam(degrees);
             diceButton.fire();
         }
     }
+
+    /**
+     * Call back method, receive degrees of assam rotate
+     *
+     * @param degrees degrees of rotate
+     */
+    public void receiveAssamRotate(int degrees) {
+        rotateAssam(degrees);
+    }
+
+    /**
+     * Rotate assam
+     * @param degrees degrees of rotate
+     */
+    public void rotateAssam(int degrees) {
+        Assam assam = board.getAssam();
+        assam.rotate(degrees);
+        realAssam.move(assam.getPosition(), assam.getFacing());
+    }
+
 
     /**
      * Call back method, receive point of the dice from realDic
@@ -144,6 +177,8 @@ public class Game extends Application {
      * @param step move step
      */
     private void moveAssam(int step) {
+        // Disable click assam
+        realAssam.setClickable(false);
         // Move assam on the logic board
         board.getAssam().move(step);
         List<Assam> moveRecords = board.getAssam().getLastMoveRecords();
@@ -244,7 +279,7 @@ public class Game extends Application {
 
             // Start next player action
             // Step 1. Enable the dice button and wait for the currently active player to roll the dice
-            enableRollDie();
+            enableRotateAssamAndRollDie();
         }
     }
 

@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
- * Description: Segments of rugs placed on the board, each rug is divided into two segments
+ * Description: rugs to be placed on the board
  *
  * @Author Chuang Ma u7703248
  * @Create 2023/9/20
@@ -23,7 +23,7 @@ public class RealRug extends ImageView {
 
     /**
      * initialization
-     *
+     * The image will be different according to the color parameter
      * @param position Placed location coordinate
      * @param color    color of rug
      * @param rugId    id of rug
@@ -51,6 +51,7 @@ public class RealRug extends ImageView {
                 this.setImage(rugImage);
             }
         }
+        // Adjust the height and width and original position
         this.setFitHeight(GRID_SIZE * 2);
         this.setFitWidth(GRID_SIZE);
         this.setLayoutX(BOARD_START + position.x * GRID_SIZE);

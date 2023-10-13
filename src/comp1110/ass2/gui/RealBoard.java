@@ -80,8 +80,10 @@ public class RealBoard extends Group {
     public void highLightNearest(double pointX, double pointY, boolean isHorizontal, Coordinate[] lightPosition) {
 
         // Not within the valid range of the board
-        if (pointX < BOARD_START + GRID_SIZE / 2.0 || pointX > BOARD_START + (TILE_ROW - 0.5) * GRID_SIZE ||
-                pointY < BOARD_START + GRID_SIZE / 2.0 || pointY > BOARD_START + (TILE_ROW - 0.5) * GRID_SIZE) {
+//        if (pointX < BOARD_START + GRID_SIZE / 2.0 || pointX > BOARD_START + (TILE_ROW - 0.5) * GRID_SIZE ||
+//                pointY < BOARD_START + GRID_SIZE / 2.0 || pointY > BOARD_START + (TILE_ROW - 0.5) * GRID_SIZE)
+        if (pointX < BOARD_START || pointX > BOARD_START + TILE_ROW * GRID_SIZE ||
+                pointY < BOARD_START - GRID_SIZE * 0.5 || pointY > BOARD_START + TILE_ROW * GRID_SIZE){
             return;
         }
 
@@ -94,13 +96,13 @@ public class RealBoard extends Group {
         // compute the squares position
         int matrixColumn1, matrixColumn2, matrixRow1, matrixRow2;
         if (isHorizontal) {
-            matrixColumn1 = Math.min(TILE_ROW - 2, (int) ((pointX - BOARD_START) / GRID_SIZE - 0.5));
-            matrixRow1 = (int) ((pointY - BOARD_START) / GRID_SIZE);
+            matrixColumn1 = Math.min(TILE_ROW - 2, (int) ((pointX - BOARD_START) / GRID_SIZE));
+            matrixRow1 = Math.min(TILE_ROW - 1, (int) ((pointY - BOARD_START) / GRID_SIZE + 1));
             matrixColumn2 = matrixColumn1 + 1;
             matrixRow2 = matrixRow1;
         } else {
-            matrixColumn1 = (int) ((pointX - BOARD_START) / GRID_SIZE);
-            matrixRow1 = Math.min(TILE_ROW - 2, (int) ((pointY - BOARD_START) / GRID_SIZE - 0.5));
+            matrixColumn1 = Math.min(TILE_ROW - 1, (int) ((pointX - BOARD_START) / GRID_SIZE + 0.5));
+            matrixRow1 = Math.min(TILE_ROW - 2, (int) ((pointY - BOARD_START) / GRID_SIZE + 0.5));
             matrixColumn2 = matrixColumn1;
             matrixRow2 = matrixRow1 + 1;
         }

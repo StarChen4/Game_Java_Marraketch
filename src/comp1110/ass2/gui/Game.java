@@ -8,6 +8,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -29,10 +30,10 @@ public class Game extends Application {
 
     // bord UI
     private final RealBoard realBoard = new RealBoard(WINDOW_WIDTH, WINDOW_HEIGHT);
+    // draggable rug
+    private DraggableRugFlag rugFlag;
     // assam icon
     private final RealAssam realAssam = new RealAssam(this);
-    // draggable rug icon
-    private final DraggableRugFlag rugFlag = new DraggableRugFlag(this);
     // dice button
     private final Button diceButton = new RealDice(this);
     // logic board
@@ -96,6 +97,8 @@ public class Game extends Application {
         }
         RealRugs.clear();
 
+        rugFlag = new DraggableRugFlag(this, this.getCurrentPlayer().getColor());
+
         // Step 1. Enable rotate assam, enable the dice button and wait for the currently active player to roll the dice
         enableRotateAssamAndRollDie();
     }
@@ -107,17 +110,17 @@ public class Game extends Application {
      */
     public void enableRotateAssamAndRollDie() {
         Player player = players.get(currPlayerIndex);
+        // draggable rug piece
 
         // enable click assam to rotate
         realAssam.setClickable(true, true);
 
-
         // Sets the color of the rug icon to the color of the currently active player
+        rugFlag.setImageByColor(player.getColor());
         // Disable dragging of rug icon
         if (!root.getChildren().contains(rugFlag)) {
             root.getChildren().add(rugFlag);
         }
-        rugFlag.setFill(player.getColor().getPaintColor());
         rugFlag.setDraggable(false);
 
         // Enable the dice button
@@ -240,6 +243,7 @@ public class Game extends Application {
     public void receiveRugPos(Coordinate position1, Coordinate position2) {
         // Step 4. Place rug based on player selected position
         placeRug(position1, position2);
+
     }
 
     /**
@@ -254,8 +258,8 @@ public class Game extends Application {
         Rug rug = board.placeRug(player, position1, position2);
         // if rug is null, It means that the position selected by the player is illegal and needs to be reselected.
         if (rug != null) {
-            // The rug is divided into two sections and placed on the UI board and Update scoreboard
-            RealRug realRug = new RealRug(position1, player.getColor(), rug.getId());
+            // The rug is placed on the UI board and Update scoreboard
+            RealRug realRug = buildRealRug(position1, position2, player, rug.getId());
             realBoard.getChildren().add(realRug);
             RealRugs.add(realRug);
             realBoard.setScoreBoard(board.getPlayers());
@@ -270,7 +274,8 @@ public class Game extends Application {
 
             // if game over
             if (board.isGameOver()) {
-                rugFlag.setFill(Color.WHITE);
+
+//                rugFlag.setFill(Color.WHITE);
                 char winner = board.getWinner();
                 Color winnerColor = null;
                 if (winner != 't') {
@@ -287,6 +292,46 @@ public class Game extends Application {
     }
 
     /**
+     * @Author: Xing Chen, u7725171
+     * We have this part of judgement because the image is special to place
+     * check this pair of coordinates type
+     * there are four possible combinations
+     * for example: assuming the image is placed at (0,0)
+     * (0,0) (0,1) vertical, downward
+     * (0,0) (0,-1) vertical, upward
+     * (0,0) (1,0) horizontal, right
+     * (0,0) (-1,0) horizontal, left
+     * after judgement, rotate the image accordingly
+     * Author: Xing Chen
+     * @param position1 coordinate 1
+     * @param position2 coordinate 2
+     * @param player current player
+     * @param rugID id
+     */
+    private RealRug buildRealRug(Coordinate position1, Coordinate position2, Player player, int rugID){
+        RealRug realRug = new RealRug(position1, player.getColor(), rugID);
+        if (position1.x == position2.x && position1.y == position2.y - 1){
+            //vertical, downward, do nothing
+        }
+        else if (position1.x == position2.x && position1.y == position2.y + 1) {
+            //vertical, upward
+            realRug.setTranslateY(-realBoard.GRID_SIZE);
+        }
+        else if (position1.y == position2.y && position1.x == position2.x - 1) {
+            // horizontal, right
+            Rotate rotate = new Rotate(90, realBoard.GRID_SIZE, realBoard.GRID_SIZE);
+            realRug.getTransforms().add(rotate);
+        }
+        else if (position1.y == position2.y && position1.x == position2.x + 1) {
+            // horizontal, left
+            Rotate rotate = new Rotate(90, realBoard.GRID_SIZE, realBoard.GRID_SIZE);
+            realRug.getTransforms().add(rotate);
+            realRug.setTranslateX(-realBoard.GRID_SIZE);
+        }
+        return realRug;
+    }
+
+    /**
      * Get UI board handle
      *
      * @return UI board
@@ -296,4 +341,5 @@ public class Game extends Application {
     }
     public Assam.AssamFacing getAssamFacing(){return this.board.getAssam().getFacing();}
     public void updateRealAssamFacing(){this.realAssam.setFacing(getAssamFacing().getFacingString());}
+    public Player getCurrentPlayer(){return this.players.get(currPlayerIndex);}
 }

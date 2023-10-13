@@ -12,8 +12,6 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
 import java.util.HashMap;
@@ -26,7 +24,7 @@ import java.util.HashMap;
  * Version 1.0
  */
 public class RealBoard extends Group {
-    private final String BOARD_IMAGE_PATH = "file:assets/BoardAndGrid.png";
+    private final String BOARD_IMAGE = "file:assets/BoardAndGrid.png";
     private static int WINDOW_WIDTH;
 
     public static int TILE_ROW = 7;
@@ -190,7 +188,7 @@ public class RealBoard extends Group {
 //        }
         final double board_size = 640;
         // use image as game board
-        Image boardImage = new Image(BOARD_IMAGE_PATH);
+        Image boardImage = new Image(BOARD_IMAGE);
         ImageView board = new ImageView(boardImage);
         board.setFitWidth(board_size);
         board.setFitHeight(board_size);
@@ -214,7 +212,7 @@ public class RealBoard extends Group {
             typeComboBoxes.put(colorChar, comboBox);
 
             Rectangle colorFlag = new Rectangle(0, 0, 20, 10);
-            colorFlag.setFill(color.getPainColor());
+            colorFlag.setFill(color.getPaintColor());
             playersTable.add(colorFlag, 1, tableRow);
 
             Label rugLabel = new Label("15");

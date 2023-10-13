@@ -20,7 +20,7 @@ public class RealAssam extends ImageView {
     private boolean leftClickable = false;
     private boolean rightClickable = false;
     private String facing;
-    private final String ASSAM_PATH = "file:assets/Assam.png";
+    private final String ASSAM_IMAGE = "file:assets/Assam.png";
     // To make the image position right
     private final double imageOffsetY = 10;
 
@@ -33,7 +33,7 @@ public class RealAssam extends ImageView {
     RealAssam(Game game) {
         //initialization
         super();
-        Image assamImage = new Image(ASSAM_PATH);
+        Image assamImage = new Image(ASSAM_IMAGE);
         this.setImage(assamImage);
         this.setFitWidth(71.5);
         this.setFitHeight(50);

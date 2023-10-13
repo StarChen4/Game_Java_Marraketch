@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 /**
  * Description: This enum defines the Color of player
  *
- * @Author Diao Fu u7722376
+ * @Author Diao Fu, u7722376
  * @Create 2023/10/03
  * Version 1.0
  */
@@ -26,7 +26,7 @@ public enum PlayerColor {
         return colorChar;
     }
 
-    public Color getPainColor() {
+    public Color getPaintColor() {
         return painColor;
     }
 }

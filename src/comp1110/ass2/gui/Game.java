@@ -44,7 +44,7 @@ public class Game extends Application {
     // The index of the currently active player in the player list
     private int currPlayerIndex = 0;
     // The UI segment of rug has been placed
-    private final ArrayList<RugSegment> rugSegments = new ArrayList<>();
+    private final ArrayList<RealRug> RealRugs = new ArrayList<>();
 
     @Override
     public void start(Stage stage) {
@@ -91,10 +91,10 @@ public class Game extends Application {
         }
 
         // Remove existing rugs from the board
-        for (RugSegment rugSegment : rugSegments) {
-            realBoard.getChildren().remove(rugSegment);
+        for (RealRug realRug : RealRugs) {
+            realBoard.getChildren().remove(realRug);
         }
-        rugSegments.clear();
+        RealRugs.clear();
 
         // Step 1. Enable rotate assam, enable the dice button and wait for the currently active player to roll the dice
         enableRotateAssamAndRollDie();
@@ -117,7 +117,7 @@ public class Game extends Application {
         if (!root.getChildren().contains(rugFlag)) {
             root.getChildren().add(rugFlag);
         }
-        rugFlag.setFill(player.getColor().getPainColor());
+        rugFlag.setFill(player.getColor().getPaintColor());
         rugFlag.setDraggable(false);
 
         // Enable the dice button
@@ -131,7 +131,7 @@ public class Game extends Application {
         String playerType = realBoard.getPlayerType(player);
         if (!"Human".equals(playerType)) {
             realAssam.setClickable(false, false);
-            int degrees = 0;
+            int degrees;
             if ("AI".equals(playerType)) {
                 degrees = board.getAssamRotateAI(player);
             } else {
@@ -255,12 +255,9 @@ public class Game extends Application {
         // if rug is null, It means that the position selected by the player is illegal and needs to be reselected.
         if (rug != null) {
             // The rug is divided into two sections and placed on the UI board and Update scoreboard
-            RugSegment seg1 = new RugSegment(position1, player.getColor().getPainColor(), rug.getId());
-            RugSegment seg2 = new RugSegment(position2, player.getColor().getPainColor(), rug.getId());
-            realBoard.getChildren().add(seg1);
-            realBoard.getChildren().add(seg2);
-            rugSegments.add(seg1);
-            rugSegments.add(seg2);
+            RealRug realRug = new RealRug(position1, player.getColor(), rug.getId());
+            realBoard.getChildren().add(realRug);
+            RealRugs.add(realRug);
             realBoard.setScoreBoard(board.getPlayers());
 
             // Switch to next player
@@ -277,7 +274,7 @@ public class Game extends Application {
                 char winner = board.getWinner();
                 Color winnerColor = null;
                 if (winner != 't') {
-                    winnerColor = board.getPlayers().get(winner).getColor().getPainColor();
+                    winnerColor = board.getPlayers().get(winner).getColor().getPaintColor();
                 }
                 root.getChildren().add(new GameOver(winnerColor));
                 return;

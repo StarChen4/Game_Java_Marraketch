@@ -109,7 +109,8 @@ public class Game extends Application {
         Player player = players.get(currPlayerIndex);
 
         // enable click assam to rotate
-        realAssam.setClickable(true);
+        realAssam.setClickable(true, true);
+
 
         // Sets the color of the rug icon to the color of the currently active player
         // Disable dragging of rug icon
@@ -129,7 +130,7 @@ public class Game extends Application {
         // if player type  is not Human, then Auto rotate assam and click dice button
         String playerType = realBoard.getPlayerType(player);
         if (!"Human".equals(playerType)) {
-            realAssam.setClickable(false);
+            realAssam.setClickable(false, false);
             int degrees = 0;
             if ("AI".equals(playerType)) {
                 degrees = board.getAssamRotateAI(player);
@@ -178,7 +179,7 @@ public class Game extends Application {
      */
     private void moveAssam(int step) {
         // Disable click assam
-        realAssam.setClickable(false);
+        realAssam.setClickable(false, false);
         // Move assam on the logic board
         board.getAssam().move(step);
         List<Assam> moveRecords = board.getAssam().getLastMoveRecords();

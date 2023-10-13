@@ -26,7 +26,7 @@ import java.util.HashMap;
  * Version 1.0
  */
 public class RealBoard extends Group {
-
+    private final String BOARD_IMAGE_PATH = "file:assets/BoardAndGrid.png";
     private static int WINDOW_WIDTH;
 
     public static int TILE_ROW = 7;
@@ -190,14 +190,11 @@ public class RealBoard extends Group {
 //        }
         final double board_size = 640;
         // use image as game board
-        Image boardImage = new Image("file:assets/BoardAndGrid.png");
+        Image boardImage = new Image(BOARD_IMAGE_PATH);
         ImageView board = new ImageView(boardImage);
         board.setFitWidth(board_size);
         board.setFitHeight(board_size);
         this.getChildren().add(board);
-
-
-
 
         // Add status display panel
         GridPane playersTable = new GridPane();

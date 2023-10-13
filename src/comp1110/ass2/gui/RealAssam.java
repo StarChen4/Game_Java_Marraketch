@@ -4,9 +4,6 @@ import comp1110.ass2.Assam;
 import comp1110.ass2.Coordinate;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
-
 
 
 /**
@@ -22,6 +19,7 @@ public class RealAssam extends ImageView {
     // whether it can be clicked for rotate
     private boolean leftClickable = false;
     private boolean rightClickable = false;
+    private String facing;
     private final String ASSAM_PATH = "file:assets/Assam.png";
     // To make the image position right
     private final double imageOffsetY = 10;
@@ -29,15 +27,19 @@ public class RealAssam extends ImageView {
     /**
      * Set Assam with an image
      * Mouseclick will rotate Assam, which can rotate 90 when right-clicked, 270 when left-clicked
-     * cannot rotate 180 degrees
+     * cannot rotate backwards from the original facing direction
      * @param game the current game
      */
     RealAssam(Game game) {
+        //initialization
         super();
         Image assamImage = new Image(ASSAM_PATH);
         this.setImage(assamImage);
         this.setFitWidth(71.5);
         this.setFitHeight(50);
+        this.facing = "N";
+
+        // Rotate assam when mouseclick
         this.setOnMousePressed(event -> {
             if (!isClickable()) {
                 return;
@@ -47,7 +49,7 @@ public class RealAssam extends ImageView {
             if (event.isSecondaryButtonDown()) {
                 degrees = 90;
             }
-            game.receiveAssamRotate(degrees);
+            game.receiveAssamRotate(degrees, facing);
         });
     }
 
@@ -69,5 +71,5 @@ public class RealAssam extends ImageView {
         this.rightClickable = rightClickable;
     }
     public boolean isClickable(){return leftClickable || rightClickable;}
-
+    public void setFacing(String facing){this.facing = facing;}
 }

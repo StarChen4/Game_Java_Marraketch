@@ -32,6 +32,17 @@ public class Assam {
         public int getDegrees() {
             return degrees;
         }
+        public String getFacingString(){return directionChar;}
+
+        public static String getDirectionCharByDegree(double degree){
+            for (AssamFacing facing:
+                 AssamFacing.values()) {
+                if (degree == facing.degrees){
+                    return facing.directionChar;
+                }
+            }
+            return null;
+        }
     }
 
     // The default facing direction is top, and coordinate is (3,3)
@@ -194,15 +205,14 @@ public class Assam {
     }
 
     /**
-     * Task 9
      * Implement Assam's rotation.
-     *
      * @param degrees The requested rotation, in degrees.
+     * @return the facing direction after rotation
      */
-    public void rotate(int degrees) {
+    public String rotate(int degrees) {
         // If not rotating to the right/left, do nothing
         if (degrees != 90 && degrees != 270) {
-            return;
+            return this.facing.getFacingString();
         }
         // Change direction of Assam according to the degree
         degrees = (degrees + facing.getDegrees()) % 360;
@@ -212,6 +222,7 @@ public class Assam {
             case 180 -> facing = AssamFacing.BOTTOM;
             case 270 -> facing = AssamFacing.LEFT;
         }
+        return this.facing.getFacingString();
     }
 
     /**

@@ -144,11 +144,14 @@ public class Game extends Application {
 
     /**
      * Call back method, receive degrees of assam rotate
-     *
+     * if this rotation is legal, then rotate.
      * @param degrees degrees of rotate
      */
-    public void receiveAssamRotate(int degrees) {
-        rotateAssam(degrees);
+    public void receiveAssamRotate(int degrees, String originFacing) {
+        // legality check
+        if(board.isRotationValid(degrees, originFacing)){
+            rotateAssam(degrees);
+        }
     }
 
     /**
@@ -202,6 +205,8 @@ public class Game extends Application {
             enableDragRug();
         });
         timeline.play();
+
+        this.updateRealAssamFacing();
     }
 
     /**
@@ -292,4 +297,6 @@ public class Game extends Application {
     public RealBoard getRealBoard() {
         return realBoard;
     }
+    public Assam.AssamFacing getAssamFacing(){return this.board.getAssam().getFacing();}
+    public void updateRealAssamFacing(){this.realAssam.setFacing(getAssamFacing().getFacingString());}
 }

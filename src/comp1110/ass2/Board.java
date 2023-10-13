@@ -1,8 +1,10 @@
 package comp1110.ass2;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.Arrays;
 
 
 /**
@@ -375,6 +377,41 @@ public class Board {
         tile2.setStatus(rug.getId(), player);
     }
 
+    /**
+     * Used for constraining the rotation of Assam
+     * Determine if a rotation degree is valid for Assam to rotate
+     * based on his original facing direction
+     * @param rotationDegree
+     * @param originFacing the original facing of Assam in this player's round
+     * @return true if valid, false otherwise
+     */
+    public boolean isRotationValid(double rotationDegree, String originFacing){
+
+        // Valid facing direction patch
+        String[] forN = {"W", "N", "E"};
+        String[] forE = {"N", "E", "S"};
+        String[] forS = {"E", "S", "W"};
+        String[] forW = {"S", "W", "N"};
+
+        // Direction before and after rotation
+        double currentDegree = this.assam.getFacing().getDegrees();
+        double degreeAfter = (currentDegree + rotationDegree) % 360;
+        String facingAfter = Assam.AssamFacing.getDirectionCharByDegree(degreeAfter);
+
+        // Check
+        boolean isValid;
+        switch (originFacing){
+            case "N" -> isValid = Arrays.asList(forN).contains(facingAfter);
+            case "E" -> isValid = Arrays.asList(forE).contains(facingAfter);
+            case "S" -> isValid = Arrays.asList(forS).contains(facingAfter);
+            case "W" -> isValid = Arrays.asList(forW).contains(facingAfter);
+            default -> isValid = false;
+        }
+        System.out.println("originFacing:"+ originFacing);
+        System.out.println("facingAfter:"+ facingAfter);
+        System.out.println("this rotation is :"+ isValid);
+        return isValid;
+    }
     /**
      * Use game string to set the current state of the game
      *

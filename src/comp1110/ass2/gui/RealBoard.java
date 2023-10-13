@@ -144,7 +144,7 @@ public class RealBoard extends Group {
      * Creates the board for the game.
      */
     private void makeBoard() {
-        final double board_size = 640;
+
 //        // Draw backGround
 //        Rectangle ground = new Rectangle(0, 0, GROUND_SIZE, GROUND_SIZE);
 //        ground.setFill(Color.web("#FFFFEE"));
@@ -188,22 +188,16 @@ public class RealBoard extends Group {
 //            line.setStroke(lineColor);
 //            this.getChildren().add(line);
 //        }
-
+        final double board_size = 640;
         // use image as game board
-        Image boardImage = new Image("file:assets/Board.png");
+        Image boardImage = new Image("file:assets/Board and Grid.png");
         ImageView board = new ImageView(boardImage);
         board.setFitWidth(board_size);
         board.setFitHeight(board_size);
         this.getChildren().add(board);
 
-        // use image as grid
-        Image gridImage = new Image("file:assets/Grid.png");
-        ImageView grid = new ImageView(gridImage);
-        grid.setFitWidth(board_size);
-        grid.setFitHeight(board_size);
-//        grid.setLayoutX();
-//        grid.setLayoutY();
-        this.getChildren().add(grid);
+
+
 
         // Add status display panel
         GridPane playersTable = new GridPane();

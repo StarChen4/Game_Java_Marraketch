@@ -190,7 +190,7 @@ public class RealBoard extends Group {
 //        }
         final double board_size = 640;
         // use image as game board
-        Image boardImage = new Image("file:assets/Board and Grid.png");
+        Image boardImage = new Image("file:assets/BoardAndGrid.png");
         ImageView board = new ImageView(boardImage);
         board.setFitWidth(board_size);
         board.setFitHeight(board_size);

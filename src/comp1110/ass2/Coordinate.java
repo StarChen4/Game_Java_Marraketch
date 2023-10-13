@@ -37,6 +37,10 @@ public class Coordinate {
         Coordinate position = (Coordinate) o;
         return x == position.x && y == position.y;
     }
+    public String toString(){
+        String coordinateString = "(" + this.x + ", " + this.y + ")";
+        return coordinateString;
+    }
 }
 
 

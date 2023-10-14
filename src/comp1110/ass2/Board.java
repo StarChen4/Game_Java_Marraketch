@@ -407,9 +407,6 @@ public class Board {
             case "W" -> isValid = Arrays.asList(forW).contains(facingAfter);
             default -> isValid = false;
         }
-        System.out.println("originFacing:"+ originFacing);
-        System.out.println("facingAfter:"+ facingAfter);
-        System.out.println("this rotation is :"+ isValid);
         return isValid;
     }
     /**

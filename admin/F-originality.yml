@@ -42,9 +42,13 @@ code:
 # Add as many "url+licence+comment" entries as necessary
 # (or remove it altogether if you haven't used any external assets)
 assets:
-  - comment:
-    url:
-    licence:
+  - comment: BackgroundMusic.mp3, used for background music
+    url: https://pixabay.com/music/adventure-marrakesh-159030/
+    licence: Use Content for free, Use Content without having to attribute the author, Modify or adapt Content into new works
+
+  - comment: Dice.mp3, used for displaying the sound of a rolling dice
+    url: https://pixabay.com/sound-effects/rpg-dice-rolling-95182/
+    licence: Pixabay License, free for commercial use, no attribution required.
 
 
 # Sign *your* name and uids here. (Remove entries if you have fewer

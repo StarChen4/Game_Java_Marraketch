@@ -80,8 +80,6 @@ public class RealBoard extends Group {
     public void highLightNearest(double pointX, double pointY, boolean isHorizontal, Coordinate[] lightPosition) {
 
         // Not within the valid range of the board
-//        if (pointX < BOARD_START + GRID_SIZE / 2.0 || pointX > BOARD_START + (TILE_ROW - 0.5) * GRID_SIZE ||
-//                pointY < BOARD_START + GRID_SIZE / 2.0 || pointY > BOARD_START + (TILE_ROW - 0.5) * GRID_SIZE)
         if (pointX < BOARD_START || pointX > BOARD_START + TILE_ROW * GRID_SIZE ||
                 pointY < BOARD_START - GRID_SIZE * 0.5 || pointY > BOARD_START + TILE_ROW * GRID_SIZE){
             return;
@@ -145,49 +143,6 @@ public class RealBoard extends Group {
      */
     private void makeBoard() {
 
-//        // Draw backGround
-//        Rectangle ground = new Rectangle(0, 0, GROUND_SIZE, GROUND_SIZE);
-//        ground.setFill(Color.web("#FFFFEE"));
-//        this.getChildren().add(ground);
-//
-//        // Draw track on the edge of the board
-//        Color circleColor = Color.web("#FFCC99");
-//        for (int i = 0; i < 4; i++) {
-//            Circle circle = new Circle(BOARD_START + (1 + 2 * i) * GRID_SIZE, BOARD_START,
-//                    GRID_SIZE / 2., circleColor);
-//            this.getChildren().add(circle);
-//            circle = new Circle(BOARD_START + 2 * i * GRID_SIZE, BOARD_START + BOARD_SIZE,
-//                    GRID_SIZE / 2., circleColor);
-//            this.getChildren().add(circle);
-//            circle = new Circle(BOARD_START, BOARD_START + (1 + 2 * i) * GRID_SIZE,
-//                    GRID_SIZE / 2., circleColor);
-//            this.getChildren().add(circle);
-//            circle = new Circle(BOARD_START + BOARD_SIZE, BOARD_START + 2 * i * GRID_SIZE,
-//                    GRID_SIZE / 2., circleColor);
-//            this.getChildren().add(circle);
-//        }
-//
-//        // Draw grid of the board
-//        Color lineColor = Color.GREY;
-//        double lineWidth = 3.0;
-//        Rectangle border = new Rectangle(BOARD_START, BOARD_START, BOARD_SIZE, BOARD_SIZE);
-//        border.setStroke(lineColor);
-//        border.setStrokeWidth(lineWidth);
-//        border.setFill(Color.web("#FF9900"));
-//        this.getChildren().add(border);
-//        for (int i = 1; i < 7; i++) {
-//            Line line = new Line(BOARD_START, BOARD_START + GRID_SIZE * i,
-//                    BOARD_START + BOARD_SIZE, BOARD_START + GRID_SIZE * i);
-//            line.setStrokeWidth(3);
-//            line.setStroke(lineColor);
-//            this.getChildren().add(line);
-//
-//            line = new Line(BOARD_START + GRID_SIZE * i, BOARD_START,
-//                    BOARD_START + GRID_SIZE * i, BOARD_START + BOARD_SIZE);
-//            line.setStrokeWidth(lineWidth);
-//            line.setStroke(lineColor);
-//            this.getChildren().add(line);
-//        }
         final double board_size = 640;
         // use image as game board
         Image boardImage = new Image(BOARD_IMAGE);

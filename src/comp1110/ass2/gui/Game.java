@@ -73,10 +73,7 @@ public class Game extends Application {
         bgm.setCycleCount(AudioClip.INDEFINITE);// play infinitely
         bgm.setVolume(0.5);// set volume
         bgm.play();
-//        Media backgroundMucis = new Media(BGM);
-//        MediaPlayer bgm = new MediaPlayer(backgroundMucis);
-//        bgm.setCycleCount(MediaPlayer.INDEFINITE); // play infinitely
-//        bgm.play();
+
 
         // Task 7 and 15
         Scene scene = new Scene(this.root, WINDOW_WIDTH, WINDOW_HEIGHT);

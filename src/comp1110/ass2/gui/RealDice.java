@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class RealDice extends StackPane {
     private ImageView diceImage;
     private ArrayList<ImageView> diceImages = new ArrayList<>();
     private final double DICEWIDTH = 100;
+    private final String DICE_ROLL = "file:assets/Audio/Dice.mp3";
 
     /**
      * initialization
@@ -49,6 +51,8 @@ public class RealDice extends StackPane {
      */
     private void rollDice() {
         setDisable(true);
+        AudioClip diceRoll = new AudioClip(DICE_ROLL);
+        diceRoll.play();
 
         // Animated effects
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {

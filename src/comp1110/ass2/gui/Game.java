@@ -7,7 +7,11 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -35,7 +39,7 @@ public class Game extends Application {
     // assam icon
     private final RealAssam realAssam = new RealAssam(this);
     // dice button
-    private final Button diceButton = new RealDice(this);
+    private final RealDice diceButton = new RealDice(this);
     // logic board
     private Board board;
     // Counter when assam moves
@@ -46,9 +50,21 @@ public class Game extends Application {
     private int currPlayerIndex = 0;
     // The UI segment of rug has been placed
     private final ArrayList<RealRug> RealRugs = new ArrayList<>();
+    private final String BGM = "file:assets/Audio/BackgroundMusic.mp3";
 
     @Override
     public void start(Stage stage) {
+        // Background
+        Rectangle background = new Rectangle(WINDOW_WIDTH, WINDOW_HEIGHT);
+        background.setFill(Color.WHITE);
+        this.root.getChildren().add(background);
+
+        //BGM
+        Media backgroundMucis = new Media(BGM);
+        MediaPlayer bgm = new MediaPlayer(backgroundMucis);
+        bgm.setCycleCount(MediaPlayer.INDEFINITE); // play infinitely
+        bgm.play();
+
         // Task 7 and 15
         Scene scene = new Scene(this.root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -127,8 +143,9 @@ public class Game extends Application {
         if (!root.getChildren().contains(diceButton)) {
             root.getChildren().add(diceButton);
         }
+        diceButton.removeAllImages();
         diceButton.setDisable(false);
-        diceButton.setText("Dice");
+        diceButton.getButton().setText("Dice");
 
         // if player type  is not Human, then Auto rotate assam and click dice button
         String playerType = realBoard.getPlayerType(player);

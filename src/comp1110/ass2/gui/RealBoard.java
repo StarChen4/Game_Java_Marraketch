@@ -24,7 +24,7 @@ import java.util.HashMap;
  * Version 1.0
  */
 public class RealBoard extends Group {
-    private final String BOARD_IMAGE = "file:assets/BoardAndGrid.png";
+    private final String BOARD_IMAGE = "file:assets/images/BoardAndGrid.png";
     private static int WINDOW_WIDTH;
 
     public static int TILE_ROW = 7;

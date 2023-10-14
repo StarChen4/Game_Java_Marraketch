@@ -20,7 +20,7 @@ public class RealAssam extends ImageView {
     private boolean leftClickable = false;
     private boolean rightClickable = false;
     private String facing;
-    private final String ASSAM_IMAGE = "file:assets/Assam.png";
+    private final String ASSAM_IMAGE = "file:assets/images/Assam.png";
     // To make the image position right
     private final double imageOffsetY = 10;
 

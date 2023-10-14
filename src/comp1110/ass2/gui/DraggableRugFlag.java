@@ -30,10 +30,10 @@ public class DraggableRugFlag extends ImageView {
     // whether it can be dragged
     private boolean draggable = false;
 
-    private final String CYAN_RUG_IMAGE= "file:assets/CyanRug.png";
-    private final String YELLOW_RUG_IMAGE= "file:assets/YellowRug.png";
-    private final String RED_RUG_IMAGE= "file:assets/RedRug.png";
-    private final String PURPLE_RUG_IMAGE= "file:assets/PurpleRug.png";
+    private final String CYAN_RUG_IMAGE= "file:assets/images/CyanRug.png";
+    private final String YELLOW_RUG_IMAGE= "file:assets/images/YellowRug.png";
+    private final String RED_RUG_IMAGE= "file:assets/images/RedRug.png";
+    private final String PURPLE_RUG_IMAGE= "file:assets/images/PurpleRug.png";
 
     /**
      * initialization

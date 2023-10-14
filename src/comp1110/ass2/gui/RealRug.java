@@ -16,10 +16,10 @@ public class RealRug extends ImageView {
     public static int BOARD_START = RealBoard.BOARD_START;
     public static int GRID_SIZE = RealBoard.GRID_SIZE;
 
-    private final String CYAN_RUG_IMAGE= "file:assets/CyanRug.png";
-    private final String YELLOW_RUG_IMAGE= "file:assets/YellowRug.png";
-    private final String RED_RUG_IMAGE= "file:assets/RedRug.png";
-    private final String PURPLE_RUG_IMAGE= "file:assets/PurpleRug.png";
+    private final String CYAN_RUG_IMAGE= "file:assets/images/CyanRug.png";
+    private final String YELLOW_RUG_IMAGE= "file:assets/images/YellowRug.png";
+    private final String RED_RUG_IMAGE= "file:assets/images/RedRug.png";
+    private final String PURPLE_RUG_IMAGE= "file:assets/images/PurpleRug.png";
 
     /**
      * initialization

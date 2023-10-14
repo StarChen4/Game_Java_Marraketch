@@ -8,6 +8,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -16,6 +17,10 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +55,11 @@ public class Game extends Application {
     private int currPlayerIndex = 0;
     // The UI segment of rug has been placed
     private final ArrayList<RealRug> RealRugs = new ArrayList<>();
+//    private final String BGM = "file:///C:/Users/84208/IdeaProjects/comp1110-ass2/assets/Audio/BackgroundMusic.mp3";
     private final String BGM = "file:assets/Audio/BackgroundMusic.mp3";
+
+
+
 
     @Override
     public void start(Stage stage) {
@@ -60,10 +69,14 @@ public class Game extends Application {
         this.root.getChildren().add(background);
 
         //BGM
-        Media backgroundMucis = new Media(BGM);
-        MediaPlayer bgm = new MediaPlayer(backgroundMucis);
-        bgm.setCycleCount(MediaPlayer.INDEFINITE); // play infinitely
-        bgm.play();
+        AudioClip audioClip = new AudioClip(BGM);
+        audioClip.setCycleCount(AudioClip.INDEFINITE);// play infinitely
+        audioClip.setVolume(0.5);// set volume
+        audioClip.play();
+//        Media backgroundMucis = new Media(BGM);
+//        MediaPlayer bgm = new MediaPlayer(backgroundMucis);
+//        bgm.setCycleCount(MediaPlayer.INDEFINITE); // play infinitely
+//        bgm.play();
 
         // Task 7 and 15
         Scene scene = new Scene(this.root, WINDOW_WIDTH, WINDOW_HEIGHT);

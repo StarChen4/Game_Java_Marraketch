@@ -69,10 +69,10 @@ public class Game extends Application {
         this.root.getChildren().add(background);
 
         //BGM
-        AudioClip audioClip = new AudioClip(BGM);
-        audioClip.setCycleCount(AudioClip.INDEFINITE);// play infinitely
-        audioClip.setVolume(0.5);// set volume
-        audioClip.play();
+        AudioClip bgm = new AudioClip(BGM);
+        bgm.setCycleCount(AudioClip.INDEFINITE);// play infinitely
+        bgm.setVolume(0.5);// set volume
+        bgm.play();
 //        Media backgroundMucis = new Media(BGM);
 //        MediaPlayer bgm = new MediaPlayer(backgroundMucis);
 //        bgm.setCycleCount(MediaPlayer.INDEFINITE); // play infinitely

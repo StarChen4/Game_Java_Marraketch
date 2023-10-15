@@ -7,6 +7,10 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
@@ -19,6 +23,7 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -32,6 +37,7 @@ import java.util.List;
  * Version 1.0
  */
 public class Game extends Application {
+    private Stage stage;
 
     private final Group root = new Group();
     private static final int WINDOW_WIDTH = 1200;
@@ -63,16 +69,19 @@ public class Game extends Application {
 
     @Override
     public void start(Stage stage) {
-        // Background
-        Rectangle background = new Rectangle(WINDOW_WIDTH, WINDOW_HEIGHT);
-        background.setFill(Color.WHITE);
-        this.root.getChildren().add(background);
-
+        this.stage = stage;
         //BGM
         AudioClip bgm = new AudioClip(BGM);
         bgm.setCycleCount(AudioClip.INDEFINITE);// play infinitely
         bgm.setVolume(0.5);// set volume
         bgm.play();
+
+        // Background
+        Rectangle background = new Rectangle(WINDOW_WIDTH, WINDOW_HEIGHT);
+        background.setFill(Color.WHITE);
+        this.root.getChildren().add(background);
+
+
 
 
         // Task 7 and 15
@@ -88,8 +97,15 @@ public class Game extends Application {
         newGameButton.setOnAction(event -> newGame());
         root.getChildren().add(newGameButton);
 
-        stage.setScene(scene);
-        stage.show();
+        // Set a rules button on the UI board; press this button to show the rule
+        Button ruleButton = new Button("Rule");
+        ruleButton.setLayoutX(700);
+        ruleButton.setLayoutY(150);
+        ruleButton.setOnAction(event -> showRule());
+        root.getChildren().add(ruleButton);
+
+        this.stage.setScene(scene);
+        this.stage.show();
     }
 
     /**
@@ -127,6 +143,28 @@ public class Game extends Application {
 
         // Step 1. Enable rotate assam, enable the dice button and wait for the currently active player to roll the dice
         enableRotateAssamAndRollDie();
+    }
+
+    private void showRule(){
+        // rule window
+        Group ruleWindow = new Group();
+        ruleWindow.setLayoutX(WINDOW_WIDTH / 3.0);
+        ruleWindow.setLayoutY(WINDOW_HEIGHT / 3.0);
+        // rule text
+        Image rule = new Image();
+        ImageView ruleImage = new ImageView(rule);
+
+        ruleWindow.getChildren().add(ruleImage);
+        // close button at right-top corner, clicking will remove the window from game
+        Button closeButton = new Button("×");
+        closeButton.setLayoutX(300);
+        closeButton.setLayoutY(300);
+        closeButton.setTextFill(Color.RED);
+        closeButton.setOnAction(event -> this.root.getChildren().remove(ruleWindow));
+        ruleWindow.getChildren().add(closeButton);
+        // display
+        this.root.getChildren().add(ruleWindow);
+
     }
 
     /**

@@ -344,7 +344,9 @@ public class Game extends Application {
                 Color winnerColor = null;
                 if (winner != 't') {
                     winnerColor = board.getPlayers().get(winner).getColor().getPaintColor();
+                    textVBox.enterGameOverStage(board.getPlayers().get(winner).getColor().toString());
                 }
+                else textVBox.enterGameOverTieStage();
                 root.getChildren().add(new GameOver(winnerColor));
                 return;
             }

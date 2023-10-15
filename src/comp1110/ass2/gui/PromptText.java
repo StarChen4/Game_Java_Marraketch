@@ -32,8 +32,8 @@ public class PromptText extends Group {
     private Text placePrompt2 = new Text("Drag the rug on the left to the place you want.\n");
     private Text placePrompt3 = new Text("Press any key to rotate it.");
     private Text gameOverPrompt1 = new Text("Game over!\n");
-    private Text gameOverPrompt2 = new Text("Winner is ");
-    private Text gameOverPrompt3 = new Text("Tie game!");
+    private Text gameOverPrompt2;
+    private Text gameOverPrompt3 = new Text("How impossible! We have a tie game!");
 //    public Text copyright = new Text("ANU: Xing, Chuang, Diao");
 //    private String welcome = new String("Welcome to Marrakech!\n");
 //    private String characterChoosePrompt = new String("Please choose your opponent type.\n");
@@ -97,7 +97,13 @@ public class PromptText extends Group {
             this.promptText.getChildren().add(invalidPrompt);
         }
     }
-    public void enterGameOverStage(){
-
+    public void enterGameOverStage(String winner){
+        this.promptText.getChildren().clear();
+        gameOverPrompt2 = new Text("Winner is player " + winner + "\n");
+        this.promptText.getChildren().addAll(gameOverPrompt1, gameOverPrompt2);
+    }
+    public void enterGameOverTieStage(){
+        this.promptText.getChildren().clear();
+        this.promptText.getChildren().addAll(gameOverPrompt3);
     }
 }

@@ -29,6 +29,7 @@ public class RealDice extends StackPane {
     private ArrayList<ImageView> diceImages = new ArrayList<>();
     private final double DICEWIDTH = 100;
     private final String DICE_ROLL = "file:assets/Audio/Dice.mp3";
+    public AudioClip diceRollSound;
 
     /**
      * initialization
@@ -36,6 +37,7 @@ public class RealDice extends StackPane {
      * @param game handle for callback
      */
     RealDice(Game game) {
+        diceRollSound = new AudioClip(DICE_ROLL);
         this.game = game;
         setLayoutX(game.getRealBoard().GROUND_SIZE + 60);
         setLayoutY(game.getRealBoard().GROUND_SIZE - 130);
@@ -51,8 +53,7 @@ public class RealDice extends StackPane {
      */
     private void rollDice() {
         setDisable(true);
-        AudioClip diceRoll = new AudioClip(DICE_ROLL);
-        diceRoll.play();
+        diceRollSound.play();
 
         // Animated effects
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {

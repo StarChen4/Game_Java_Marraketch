@@ -4,23 +4,15 @@ import comp1110.ass2.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -55,30 +47,12 @@ public class Game extends Application {
     private int currPlayerIndex = 0;
     // The UI segment of rug has been placed
     private final ArrayList<RealRug> RealRugs = new ArrayList<>();
-    // resources file path
-    private final String BGM = "file:assets/Audio/BackgroundMusic.mp3";
-    private final String RULE_BOARD = "file:assets/Images/RuleBoard.png";
-    private final String START_SCENE = "file:assets/Images/StartScene.png";
-    private final String SOUND_IMAGE = "file:assets/Images/Sound.png";
-    private final String SOUND_MUTED_IMAGE = "file:assets/Images/Mute.png";
-    // background music
-    private AudioClip bgm;
-    // start scene
-    private Image startScene = new Image(START_SCENE);
-    private ImageView startSceneImage;
-    // Buttons of game
-    private HashMap<String, Button> buttons =  new HashMap<>();
-    // Slider of volume
-    private Slider volumeSlider;
-    private double volumeRecorder;
-    // Mute status
-    private boolean soundMuted = false;
-
+    private IconsAndMusic iconsAndMusic = new IconsAndMusic(WINDOW_WIDTH, WINDOW_HEIGHT, this);
     // HBox for game buttons and volume bar when the game is on
-    private HBox hBox = new HBox();
+    public HBox hBox = new HBox();
 
     /**
-     * initialization of game
+     * initialization of game, firstly, game will enter a starting scene
      * setting bgm, start scene, buttons and slider
      * @param stage the primary stage for this application, onto which
      * the application scene can be set.
@@ -86,74 +60,17 @@ public class Game extends Application {
     @Override
     public void start(Stage stage) {
         this.stage = stage;
-        // BGM
-        bgm = new AudioClip(BGM);
-        bgm.setCycleCount(AudioClip.INDEFINITE);// play infinitely
-        bgm.setVolume(0.5);
-        bgm.play();
-        bgm.volumeProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("BGM Volume: " + newValue);
-        });
-
-        // Start Scene
-        startSceneImage = new ImageView(startScene);
-        startSceneImage.setFitHeight(WINDOW_HEIGHT);
-        startSceneImage.setFitWidth(WINDOW_WIDTH);
-        this.root.getChildren().add(startSceneImage);
-
         // Task 7 and 15
         Scene scene = new Scene(this.root, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-        // Set a volume Slider, to control the bgm and sound effects
-        volumeSlider = new Slider(0, 1, 0.5);
-        dice.diceRollSound.volumeProperty().bind(volumeSlider.valueProperty());
-        bgm.volumeProperty().bind(volumeSlider.valueProperty());
-//        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-//            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-//                bgm.setVolume(newValue.doubleValue());
-//            }
-//        });
-        volumeRecorder = volumeSlider.getValue();
-
-        // Buttons initialization
-        buttons.put("newGameButton",new Button("NEW GAME")); // NEW GAME
-        buttons.put("ruleButton",new Button("RULE")); // RULE
-        buttons.put("closeRuleButton",new Button("BACK")); // BACK FROM RULE
-        buttons.put("muteButton",new Button("MUTE")); // MUTE BUTTON
-
-        // Set up a new game button on the UI board; press this button to begin or reset a game.
-        buttons.get("newGameButton").setLayoutX(450);
-        buttons.get("newGameButton").setLayoutY(300);
-        buttons.get("newGameButton").setStyle("-fx-font-size: 40px; -fx-font-weight: bold;");
-        buttons.get("newGameButton").setOnAction(event -> newGame());
-
-
-        // Set a rules button on the UI board; press this button to show the rule
-        buttons.get("ruleButton").setLayoutX(510);
-        buttons.get("ruleButton").setLayoutY(450);
-        buttons.get("ruleButton").setStyle("-fx-font-size: 40px; -fx-font-weight: bold;");
-        buttons.get("ruleButton").setOnAction(event -> showRule());
-
-
-        // Set a mute button on the UI board; it is displayed as an icon
-        buttons.get("muteButton").setLayoutX(1100);
-        buttons.get("muteButton").setLayoutY(600);
-        buttons.get("muteButton").setOnAction(event ->{
-                    if (!soundMuted) {
-                        volumeRecorder = volumeSlider.getValue();
-                        volumeSlider.setValue(0.0);
-                        soundMuted = true;}
-                    else {
-                        volumeSlider.setValue(volumeRecorder);
-                        soundMuted = false;
-                    }
-                });
-
-        // display buttons and slider
-        root.getChildren().add(buttons.get("newGameButton"));
-        root.getChildren().add(buttons.get("ruleButton"));
-        hBox.getChildren().add(buttons.get("muteButton"));
-        hBox.getChildren().add(volumeSlider);
+        // Set click event
+        iconsAndMusic.buttons.get("newGameButton").setOnAction(event -> newGame());
+        iconsAndMusic.buttons.get("ruleButton").setOnAction(event -> showRule());
+        // display everything
+        this.root.getChildren().add(iconsAndMusic.startSceneImage);
+        root.getChildren().add(iconsAndMusic.buttons.get("newGameButton"));
+        root.getChildren().add(iconsAndMusic.buttons.get("ruleButton"));
+        hBox.getChildren().add(iconsAndMusic.buttons.get("muteButton"));
+        hBox.getChildren().add(iconsAndMusic.volumeSlider);
         hBox.setLayoutX(WINDOW_WIDTH-200);
         hBox.setLayoutY(WINDOW_HEIGHT-50);
         this.root.getChildren().add(hBox);
@@ -169,18 +86,9 @@ public class Game extends Application {
         board = new Board();
         if (!root.getChildren().contains(realBoard))
             root.getChildren().add(realBoard);
-        // remove the start scene and re-allocate the buttons
-        if (!hBox.getChildren().contains(buttons.get("newGameButton"))
-                && !hBox.getChildren().contains(buttons.get("ruleButton"))) {
-            this.root.getChildren().remove(startSceneImage);
-            hBox.setLayoutX(WINDOW_WIDTH - 400);
-            hBox.setLayoutY(WINDOW_HEIGHT - 50);
-            buttons.get("ruleButton").setStyle("-fx-font-size: 10px; -fx-font-weight: bold;");
-            hBox.getChildren().add(0, buttons.get("ruleButton"));
-            buttons.get("newGameButton").setStyle("-fx-font-size: 10px; -fx-font-weight: bold;");
-            hBox.getChildren().add(0, buttons.get("newGameButton"));
-            hBox.setSpacing(10);
-        }
+
+        // remove the start scene and reallocate the buttons
+        this.reallocateIcons();
 
         // Get players from logic board to a list,
         // In order to implement the game in the order of players in the list
@@ -211,27 +119,33 @@ public class Game extends Application {
         enableRotateAssamAndRollDie();
     }
 
-    private void showRule(){
-        // rule window
-        Group ruleWindow = new Group();
-
-        // rule picture
-        Image rule = new Image(RULE_BOARD);
-        ImageView ruleImage = new ImageView(rule);
-        ruleImage.setFitHeight(WINDOW_HEIGHT);
-        ruleImage.setFitWidth(WINDOW_WIDTH);
-        ruleWindow.getChildren().add(ruleImage);
-
-        // close button at right-top corner, clicking will remove the window from game
-        buttons.get("closeRuleButton").setStyle("-fx-font-size: 40px; -fx-font-weight: bold;");
-        buttons.get("closeRuleButton").setMinSize(20,20);
-        buttons.get("closeRuleButton").setOnAction(event -> this.root.getChildren().remove(ruleWindow));
-        ruleWindow.getChildren().add(buttons.get("closeRuleButton"));
-
-        // display
-        this.root.getChildren().add(ruleWindow);
+    /**
+     * display the rule window with a close button
+     */
+    public void showRule(){
+        iconsAndMusic.buttons.get("closeRuleButton").setOnAction(event -> this.root.getChildren().remove(iconsAndMusic.ruleWindow));
+        // display ruleWindow
+        this.root.getChildren().add(iconsAndMusic.formRuleWindow(WINDOW_WIDTH, WINDOW_HEIGHT));
     }
 
+    /**
+     * move the icons to right-bottom corner when new game is started
+     */
+    public void reallocateIcons(){
+        // avoid duplicate children adding
+        if (!hBox.getChildren().contains(iconsAndMusic.buttons.get("newGameButton"))
+                && !hBox.getChildren().contains(iconsAndMusic.buttons.get("ruleButton"))) {
+            this.root.getChildren().remove(iconsAndMusic.startSceneImage);
+            hBox.setLayoutX(WINDOW_WIDTH - 400);
+            hBox.setLayoutY(WINDOW_HEIGHT - 50);
+            // change icons
+            iconsAndMusic.changeIconsFeatures();
+            // new game and rule buttons are moved to the right-bottom corner, into a HBox
+            hBox.getChildren().add(0, iconsAndMusic.buttons.get("ruleButton"));
+            hBox.getChildren().add(0, iconsAndMusic.buttons.get("newGameButton"));
+            hBox.setSpacing(10);
+        }
+    }
     /**
      * Enable rotate assam
      * Sets the color of the rug icon to the color of the currently active player

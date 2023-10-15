@@ -4,6 +4,8 @@ import comp1110.ass2.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -57,6 +59,10 @@ public class Game extends Application {
     private final String BGM = "file:assets/Audio/BackgroundMusic.mp3";
     private final String RULE_BOARD = "file:assets/Images/RuleBoard.png";
     private final String START_SCENE = "file:assets/Images/StartScene.png";
+    private final String SOUND_IMAGE = "file:assets/Images/Sound.png";
+    private final String SOUND_MUTED_IMAGE = "file:assets/Images/Mute.png";
+    // background music
+    private AudioClip bgm;
     // start scene
     private Image startScene = new Image(START_SCENE);
     private ImageView startSceneImage;
@@ -81,10 +87,13 @@ public class Game extends Application {
     public void start(Stage stage) {
         this.stage = stage;
         // BGM
-        AudioClip bgm = new AudioClip(BGM);
+        bgm = new AudioClip(BGM);
         bgm.setCycleCount(AudioClip.INDEFINITE);// play infinitely
-        bgm.setVolume(0.5);// set volume
+        bgm.setVolume(0.5);
         bgm.play();
+        bgm.volumeProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("BGM Volume: " + newValue);
+        });
 
         // Start Scene
         startSceneImage = new ImageView(startScene);
@@ -97,8 +106,13 @@ public class Game extends Application {
 
         // Set a volume Slider, to control the bgm and sound effects
         volumeSlider = new Slider(0, 1, 0.5);
-        bgm.volumeProperty().bind(volumeSlider.valueProperty());
         dice.diceRollSound.volumeProperty().bind(volumeSlider.valueProperty());
+        bgm.volumeProperty().bind(volumeSlider.valueProperty());
+//        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+//            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//                bgm.setVolume(newValue.doubleValue());
+//            }
+//        });
         volumeRecorder = volumeSlider.getValue();
 
         // Buttons initialization
@@ -121,7 +135,7 @@ public class Game extends Application {
         buttons.get("ruleButton").setOnAction(event -> showRule());
 
 
-        // Set a mute button on the UI board;
+        // Set a mute button on the UI board; it is displayed as an icon
         buttons.get("muteButton").setLayoutX(1100);
         buttons.get("muteButton").setLayoutY(600);
         buttons.get("muteButton").setOnAction(event ->{
@@ -133,14 +147,15 @@ public class Game extends Application {
                         volumeSlider.setValue(volumeRecorder);
                         soundMuted = false;
                     }
-                }
-                );
+                });
 
         // display buttons and slider
         root.getChildren().add(buttons.get("newGameButton"));
         root.getChildren().add(buttons.get("ruleButton"));
         hBox.getChildren().add(buttons.get("muteButton"));
         hBox.getChildren().add(volumeSlider);
+        hBox.setLayoutX(WINDOW_WIDTH-200);
+        hBox.setLayoutY(WINDOW_HEIGHT-50);
         this.root.getChildren().add(hBox);
         this.stage.setScene(scene);
         this.stage.show();
@@ -155,11 +170,17 @@ public class Game extends Application {
         if (!root.getChildren().contains(realBoard))
             root.getChildren().add(realBoard);
         // remove the start scene and re-allocate the buttons
-//        if (hBox.getChildren().contains(buttons.get("newGameButton"))
-//                && hBox.getChildren().contains(buttons.get("ruleButton")))
-        this.root.getChildren().remove(startSceneImage);
-
-
+        if (!hBox.getChildren().contains(buttons.get("newGameButton"))
+                && !hBox.getChildren().contains(buttons.get("ruleButton"))) {
+            this.root.getChildren().remove(startSceneImage);
+            hBox.setLayoutX(WINDOW_WIDTH - 400);
+            hBox.setLayoutY(WINDOW_HEIGHT - 50);
+            buttons.get("ruleButton").setStyle("-fx-font-size: 10px; -fx-font-weight: bold;");
+            hBox.getChildren().add(0, buttons.get("ruleButton"));
+            buttons.get("newGameButton").setStyle("-fx-font-size: 10px; -fx-font-weight: bold;");
+            hBox.getChildren().add(0, buttons.get("newGameButton"));
+            hBox.setSpacing(10);
+        }
 
         // Get players from logic board to a list,
         // In order to implement the game in the order of players in the list
@@ -202,10 +223,10 @@ public class Game extends Application {
         ruleWindow.getChildren().add(ruleImage);
 
         // close button at right-top corner, clicking will remove the window from game
-        buttons.get("diceButton").setStyle("-fx-font-size: 40px; -fx-font-weight: bold;");
-        buttons.get("diceButton").setMinSize(20,20);
-        buttons.get("diceButton").setOnAction(event -> this.root.getChildren().remove(ruleWindow));
-        ruleWindow.getChildren().add(buttons.get("diceButton"));
+        buttons.get("closeRuleButton").setStyle("-fx-font-size: 40px; -fx-font-weight: bold;");
+        buttons.get("closeRuleButton").setMinSize(20,20);
+        buttons.get("closeRuleButton").setOnAction(event -> this.root.getChildren().remove(ruleWindow));
+        ruleWindow.getChildren().add(buttons.get("closeRuleButton"));
 
         // display
         this.root.getChildren().add(ruleWindow);

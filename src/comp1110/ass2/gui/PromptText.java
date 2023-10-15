@@ -19,18 +19,18 @@ public class PromptText extends Group {
     private Text roundPrompt;
     private Text roundPrompt2 = new Text("'s round.");
     private Text invalidPrompt;
-    private Text rotatePrompt = new Text("Now you can left-click or right-click to rotate Assam.\n");
+    private Text rotatePrompt = new Text("You can left-click or right-click to rotate Assam.\n");
     private Text rollPrompt = new Text("When finish rotating, click on the \"Dice\" to roll.\n");
     private Text movePrompt1 = new Text("Assam will move ");
     private Text movePrompt2 = new Text(" steps.");
     private Text movePrompt3 = new Text(" step.");
     private Text paymentPrompt1 = new Text("Oops, you have to pay ");
-    private Text paymentPrompt2 = new Text(" dirhams.");
-    private Text paymentPrompt3 = new Text(" dirham.");
+    private Text paymentPrompt2 = new Text(" dirhams.\n");
+    private Text paymentPrompt3 = new Text(" dirham.\n");
     private Text paymentPrompt4 = new Text("Lucky you! You don't need to pay anyone.\n");
     private Text placePrompt1 = new Text("Now it's time to place your rug.\n");
     private Text placePrompt2 = new Text("Drag the rug on the left to the place you want.\n");
-    private Text placePrompt3 = new Text("Press any key to rotate.");
+    private Text placePrompt3 = new Text("Press any key to rotate it.");
     private Text gameOverPrompt1 = new Text("Game over!\n");
     private Text gameOverPrompt2 = new Text("Winner is ");
     private Text gameOverPrompt3 = new Text("Tie game!");
@@ -84,7 +84,6 @@ public class PromptText extends Group {
             this.promptText.getChildren().addAll(paymentPrompt1, new Text(player), new Text(String.valueOf(amount)), paymentPrompt2);
     }
     public void enterPlacementStage(){
-        this.promptText.getChildren().clear();
         this.promptText.getChildren().addAll(placePrompt1, placePrompt2, placePrompt3);
     }
     public void enterRollingStage(Game game){

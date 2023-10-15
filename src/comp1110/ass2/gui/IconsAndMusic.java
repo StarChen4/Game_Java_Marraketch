@@ -31,10 +31,14 @@ public class IconsAndMusic {
     private final String SOUND_IMAGE = "file:assets/Images/Sound.png";
     private final String SOUND_MUTE_IMAGE = "file:assets/Images/Mute.png";
     private static final String DICE_ROLL = "file:assets/Audio/Dice.mp3";
+    private static final String PAYMENT_MUSIC = "file:assets/Audio/Payment.mp3";
+    private static final String PLACE_RUG_MUSIC = "file:assets/Audio/PlaceRug.mp3";
     // background music
     private Media bgmMusic = new Media(new File(BGM).toURI().toString());
     private MediaPlayer bgm = new MediaPlayer(bgmMusic);
     private static AudioClip diceRollSound = new AudioClip(DICE_ROLL);
+    private static AudioClip paymentSound = new AudioClip(PAYMENT_MUSIC);
+    private static AudioClip placeRugSound = new AudioClip(PLACE_RUG_MUSIC);
     // Mute status
     private boolean soundMuted = false;
     // start scene
@@ -70,6 +74,8 @@ public class IconsAndMusic {
         volumeSlider = new Slider(0, 1, 0.5);
         diceRollSound.volumeProperty().bind(volumeSlider.valueProperty());
         bgm.volumeProperty().bind(volumeSlider.valueProperty());
+        paymentSound.volumeProperty().bind(volumeSlider.valueProperty());
+        placeRugSound.volumeProperty().bind(volumeSlider.valueProperty());
         volumeRecorder = volumeSlider.getValue();
 
         // Buttons initialization
@@ -139,5 +145,12 @@ public class IconsAndMusic {
     }
     public static void playDiceSound(){
         diceRollSound.play();
+    }
+    public void playPaymentSound(String paymentString){
+        if(paymentString != null)
+        paymentSound.play();
+    }
+    public static void playPlaceRugSound(){
+        placeRugSound.play();
     }
 }

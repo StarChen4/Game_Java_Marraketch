@@ -16,6 +16,9 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+
 /**
  * Description: Program entry
  *
@@ -174,9 +177,9 @@ public class Game extends Application {
         // Sets the color of the rug icon to the color of the currently active player
         rugFlag.setImageByColor(player.getColor());
         // Disable dragging of rug icon
-        if (!root.getChildren().contains(rugFlag)) {
-            root.getChildren().add(rugFlag);
-        }
+//        if (!root.getChildren().contains(rugFlag)) {
+//            root.getChildren().add(rugFlag);
+//        }
         rugFlag.setDraggable(false);
 
         // Enable the dice button
@@ -265,7 +268,7 @@ public class Game extends Application {
             // Payment between players， Update scoreboard
             textVBox.enterPaymentStage(board.payment(players.get(currPlayerIndex)));
             realBoard.setScoreBoard(board.getPlayers());
-
+            iconsAndMusic.playPaymentSound(board.payment(players.get(currPlayerIndex)));
             // Step 3. Enable dragging of rug icon and wait for the currently active player to place a rug.
             enableDragRug();
             isMoveOver = true;
@@ -280,6 +283,9 @@ public class Game extends Application {
      */
     public void enableDragRug() {
         rugFlag.setDraggable(true);
+        if (!root.getChildren().contains(rugFlag)) {
+            root.getChildren().add(rugFlag);
+        }
         // Hidden dice
         root.getChildren().remove(dice);
         textVBox.enterPlacementStage();
@@ -327,6 +333,7 @@ public class Game extends Application {
             realBoard.getChildren().add(realRug);
             RealRugs.add(realRug);
             realBoard.setScoreBoard(board.getPlayers());
+            iconsAndMusic.playPlaceRugSound();
 
             // Switch to next player
             do {

@@ -50,13 +50,20 @@ assets:
     url: https://pixabay.com/sound-effects/rpg-dice-rolling-95182/
     licence: Pixabay License, free for commercial use, no attribution required.
 
+  - comment: PlaceRug.mp3, used for displaying the sound of placing a rug
+    url: https://pixabay.com/sound-effects/canvas-dropcloth-snap-2-98861/
+    licence: Pixabay License, free for commercial use, no attribution required.
+
+  - comment: Pay.mp3, used for displaying the sound of pay to someone
+    url: https://pixabay.com/sound-effects/coin-bag-pickup-drop-94617/
+    licence: Pixabay License, free for commercial use, no attribution required.
 
 # Sign *your* name and uids here. (Remove entries if you have fewer
 # than three members.)
 signatures:
-  - name:
-    uid:
-  - name:
-    uid:
-  - name:
-    uid:
+  - name: Xing Chen
+    uid: u7725171
+  - name: Chuang Ma
+    uid: u7703248
+  - name: Diao Fu
+    uid: u7722376

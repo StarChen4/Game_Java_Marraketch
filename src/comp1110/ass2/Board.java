@@ -184,17 +184,19 @@ public class Board {
      * When current player lands on a rug owned by another player, payment is made to them
      *
      * @param currentPlayer current player
+     * @return a String contains amount of payment and the player should be paid to
      */
-    public void payment(Player currentPlayer) {
+    public String payment(Player currentPlayer) {
         Coordinate position = assam.getPosition();
         Player player = boardMatrix[position.x][position.y].getPlayer();
         // The position is not owned by other players and no payment is required.
         if (player == null || !player.isInGame() || player.equals(currentPlayer)) {
-            return;
+            return null;
         }
 
         int amount = getPaymentAmount();
         currentPlayer.payTo(player, amount);
+        return String.format("%02d", amount) + player.getColor().toString();
     }
 
     /**

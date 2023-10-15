@@ -28,8 +28,7 @@ public class RealDice extends StackPane {
     private ImageView diceImage;
     private ArrayList<ImageView> diceImages = new ArrayList<>();
     private final double DICEWIDTH = 100;
-    private final String DICE_ROLL = "file:assets/Audio/Dice.mp3";
-    public AudioClip diceRollSound;
+
 
     /**
      * initialization
@@ -37,13 +36,12 @@ public class RealDice extends StackPane {
      * @param game handle for callback
      */
     RealDice(Game game) {
-        diceRollSound = new AudioClip(DICE_ROLL);
         this.game = game;
         setLayoutX(game.getRealBoard().GROUND_SIZE + 60);
         setLayoutY(game.getRealBoard().GROUND_SIZE - 130);
         this.button.setMinHeight(80);
         this.button.setMinWidth(80);
-        this.button.setStyle("-fx-font-size:30");
+        this.button.setStyle("-fx-font-size:30; -fx-font-weight: bold;");
         this.button.setOnAction(event -> rollDice());
         this.getChildren().add(button);
     }
@@ -53,7 +51,7 @@ public class RealDice extends StackPane {
      */
     private void rollDice() {
         setDisable(true);
-        diceRollSound.play();
+        IconsAndMusic.playDiceSound();
 
         // Animated effects
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {

@@ -4,6 +4,7 @@ import comp1110.ass2.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
@@ -49,7 +50,8 @@ public class Game extends Application {
     private final ArrayList<RealRug> RealRugs = new ArrayList<>();
     private IconsAndMusic iconsAndMusic = new IconsAndMusic(WINDOW_WIDTH, WINDOW_HEIGHT, this);
     // HBox for game buttons and volume bar when the game is on
-    public HBox hBox = new HBox();
+    private HBox hBox = new HBox();
+    private PromptText textVBox;
 
     /**
      * initialization of game, firstly, game will enter a starting scene
@@ -73,6 +75,7 @@ public class Game extends Application {
         hBox.getChildren().add(iconsAndMusic.volumeSlider);
         hBox.setLayoutX(WINDOW_WIDTH-200);
         hBox.setLayoutY(WINDOW_HEIGHT-50);
+        hBox.setAlignment(Pos.CENTER);
         this.root.getChildren().add(hBox);
         this.stage.setScene(scene);
         this.stage.show();
@@ -98,6 +101,12 @@ public class Game extends Application {
             players.add(board.getPlayers().get(colorChar));
         }
         realBoard.setScoreBoard(board.getPlayers());
+
+        //display prompt text
+        textVBox = new PromptText(this);
+        textVBox.setLayoutX(WINDOW_WIDTH - 375);
+        textVBox.setLayoutY(WINDOW_HEIGHT - 400);
+        root.getChildren().add(textVBox);
 
         // Start the game with player 0
         currPlayerIndex = 0;
@@ -125,7 +134,7 @@ public class Game extends Application {
     public void showRule(){
         iconsAndMusic.buttons.get("closeRuleButton").setOnAction(event -> this.root.getChildren().remove(iconsAndMusic.ruleWindow));
         // display ruleWindow
-        this.root.getChildren().add(iconsAndMusic.formRuleWindow(WINDOW_WIDTH, WINDOW_HEIGHT));
+        this.root.getChildren().add(iconsAndMusic.formRuleWindow());
     }
 
     /**
@@ -220,6 +229,7 @@ public class Game extends Application {
     public void receiveDicePoint(int point) {
         // Step 2. Move the assam according to the number of dice
         moveAssam(point);
+        textVBox.enterMovingStage(point);
     }
 
     /**
@@ -245,7 +255,7 @@ public class Game extends Application {
             assamStepCount = 0;
 
             // Payment between players， Update scoreboard
-            board.payment(players.get(currPlayerIndex));
+            textVBox.enterPaymentStage(board.payment(players.get(currPlayerIndex)));
             realBoard.setScoreBoard(board.getPlayers());
 
             // Step 3. Enable dragging of rug icon and wait for the currently active player to place a rug.

@@ -18,6 +18,7 @@ public class PromptText extends Group {
     private Text characterChoosePrompt = new Text("Please choose your opponent type.\n");
     private Text roundPrompt;
     private Text roundPrompt2 = new Text("'s round.");
+    private Text invalidPrompt;
     private Text rotatePrompt = new Text("Now you can left-click or right-click to rotate Assam.\n");
     private Text rollPrompt = new Text("When finish rotating, click on the \"Dice\" to roll.\n");
     private Text movePrompt1 = new Text("Assam will move ");
@@ -27,6 +28,9 @@ public class PromptText extends Group {
     private Text paymentPrompt2 = new Text(" dirhams.");
     private Text paymentPrompt3 = new Text(" dirham.");
     private Text paymentPrompt4 = new Text("Lucky you! You don't need to pay anyone.\n");
+    private Text placePrompt1 = new Text("Now it's time to place your rug.\n");
+    private Text placePrompt2 = new Text("Drag the rug on the left to the place you want.\n");
+    private Text placePrompt3 = new Text("Press any key to rotate.");
     private Text gameOverPrompt1 = new Text("Game over!\n");
     private Text gameOverPrompt2 = new Text("Winner is ");
     private Text gameOverPrompt3 = new Text("Tie game!");
@@ -51,7 +55,7 @@ public class PromptText extends Group {
     public VBox textVBox;
 
     public PromptText(Game game){
-        roundPrompt = new Text("Now is player " + game.getCurrentPlayer().getColor().toString() + "'s turn.\n");
+        roundPrompt = new Text("Player " + game.getCurrentPlayer().getColor().toString() + "'s turn.\n");
         this.promptText.getChildren().addAll(welcome, characterChoosePrompt, roundPrompt, rotatePrompt, rollPrompt);
         this.promptText.setLineSpacing(10);
         this.promptText.setStyle("-fx-font-size: 15px;");
@@ -79,5 +83,22 @@ public class PromptText extends Group {
         else
             this.promptText.getChildren().addAll(paymentPrompt1, new Text(player), new Text(String.valueOf(amount)), paymentPrompt2);
     }
+    public void enterPlacementStage(){
+        this.promptText.getChildren().clear();
+        this.promptText.getChildren().addAll(placePrompt1, placePrompt2, placePrompt3);
+    }
+    public void enterRollingStage(Game game){
+        this.promptText.getChildren().clear();
+        roundPrompt = new Text("Now is player " + game.getCurrentPlayer().getColor().toString() + "'s turn.\n");
+        this.promptText.getChildren().addAll(roundPrompt, rotatePrompt, rollPrompt);
+    }
+    public void invalidPrompt(String assamOriginalFacing){
+        if (!this.promptText.getChildren().contains(invalidPrompt)) {
+            invalidPrompt = new Text("Invalid rotation!\n" + "Assam's original facing " + assamOriginalFacing + ", cannot face backward.");
+            this.promptText.getChildren().add(invalidPrompt);
+        }
+    }
+    public void enterGameOverStage(){
 
+    }
 }

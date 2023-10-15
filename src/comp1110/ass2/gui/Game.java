@@ -38,6 +38,8 @@ public class Game extends Application {
     private final RealAssam realAssam = new RealAssam(this);
     // dice button
     private final RealDice dice = new RealDice(this);
+    // avoid new game when moving assam
+    private boolean isMoveOver = true;
     // logic board
     private Board board;
     // Counter when assam moves
@@ -65,7 +67,7 @@ public class Game extends Application {
         // Task 7 and 15
         Scene scene = new Scene(this.root, WINDOW_WIDTH, WINDOW_HEIGHT);
         // Set click event
-        iconsAndMusic.buttons.get("newGameButton").setOnAction(event -> newGame());
+        iconsAndMusic.buttons.get("newGameButton").setOnAction(event -> {if (isMoveOver) newGame();});
         iconsAndMusic.buttons.get("ruleButton").setOnAction(event -> showRule());
         // display everything
         this.root.getChildren().add(iconsAndMusic.startSceneImage);
@@ -103,6 +105,8 @@ public class Game extends Application {
         realBoard.setScoreBoard(board.getPlayers());
 
         //display prompt text
+        if(this.root.getChildren().contains(textVBox))
+            this.root.getChildren().remove(textVBox);
         textVBox = new PromptText(this);
         textVBox.setLayoutX(WINDOW_WIDTH - 375);
         textVBox.setLayoutY(WINDOW_HEIGHT - 400);
@@ -208,6 +212,9 @@ public class Game extends Application {
         if(board.isRotationValid(degrees, originFacing)){
             rotateAssam(degrees);
         }
+        else{
+            textVBox.invalidPrompt(originFacing);
+        }
     }
 
     /**
@@ -228,6 +235,7 @@ public class Game extends Application {
      */
     public void receiveDicePoint(int point) {
         // Step 2. Move the assam according to the number of dice
+        isMoveOver = false;
         moveAssam(point);
         textVBox.enterMovingStage(point);
     }
@@ -260,6 +268,7 @@ public class Game extends Application {
 
             // Step 3. Enable dragging of rug icon and wait for the currently active player to place a rug.
             enableDragRug();
+            isMoveOver = true;
         });
         timeline.play();
 
@@ -273,7 +282,7 @@ public class Game extends Application {
         rugFlag.setDraggable(true);
         // Hidden dice
         root.getChildren().remove(dice);
-
+        textVBox.enterPlacementStage();
         // if player type  is random or AI, then auto place a rug
         Player player = players.get(currPlayerIndex);
         String playerType = realBoard.getPlayerType(player);
@@ -286,6 +295,7 @@ public class Game extends Application {
             }
             placeRug(rug.getSeg1(), rug.getSeg2());
         }
+
     }
 
     /**
@@ -343,6 +353,7 @@ public class Game extends Application {
             // Step 1. Enable the dice button and wait for the currently active player to roll the dice
             enableRotateAssamAndRollDie();
         }
+        textVBox.enterRollingStage(this);
     }
 
     /**

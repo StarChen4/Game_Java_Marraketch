@@ -17,7 +17,7 @@ import java.util.HashMap;
  * Buttons:
  *  start scene, new game, rule, rule close, mute, volume slider
  * Music:
- *  BGM
+ *  BGM, rollDice
  *
  * @Author Xing Chen, u7725171
  * @Create 2023/10/15

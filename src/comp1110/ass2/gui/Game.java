@@ -53,7 +53,7 @@ public class Game extends Application {
     private int currPlayerIndex = 0;
     // The UI segment of rug has been placed
     private final ArrayList<RealRug> RealRugs = new ArrayList<>();
-    private IconsAndMusic iconsAndMusic = new IconsAndMusic(WINDOW_WIDTH, WINDOW_HEIGHT, this);
+    private IconsAndMusic iconsAndMusic = new IconsAndMusic(WINDOW_WIDTH, WINDOW_HEIGHT);
     // HBox for game buttons and volume bar when the game is on
     private HBox hBox = new HBox();
     private PromptText textVBox;

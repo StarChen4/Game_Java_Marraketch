@@ -27,7 +27,6 @@ import java.util.List;
  * Version 1.0
  */
 public class Game extends Application {
-    private Stage stage;
 
     private final Group root = new Group();
     private static final int WINDOW_WIDTH = 1200;
@@ -53,10 +52,10 @@ public class Game extends Application {
     private int currPlayerIndex = 0;
     // The UI segment of rug has been placed
     private final ArrayList<RealRug> RealRugs = new ArrayList<>();
-    private IconsAndMusic iconsAndMusic = new IconsAndMusic(WINDOW_WIDTH, WINDOW_HEIGHT);
+    private final IconsAndMusic iconsAndMusic = new IconsAndMusic(WINDOW_WIDTH, WINDOW_HEIGHT);
     // HBox for game buttons and volume bar when the game is on
-    private HBox hBox = new HBox();
-    private PromptText textVBox;
+    private final HBox hBox = new HBox();
+    private PromptText promptText;
 
     /**
      * initialization of game, firstly, game will enter a starting scene
@@ -66,7 +65,6 @@ public class Game extends Application {
      */
     @Override
     public void start(Stage stage) {
-        this.stage = stage;
         // Task 7 and 15
         Scene scene = new Scene(this.root, WINDOW_WIDTH, WINDOW_HEIGHT);
         // Set click event
@@ -82,8 +80,8 @@ public class Game extends Application {
         hBox.setLayoutY(WINDOW_HEIGHT-50);
         hBox.setAlignment(Pos.CENTER);
         this.root.getChildren().add(hBox);
-        this.stage.setScene(scene);
-        this.stage.show();
+        stage.setScene(scene);
+        stage.show();
     }
 
     /**
@@ -108,12 +106,12 @@ public class Game extends Application {
         realBoard.setScoreBoard(board.getPlayers());
 
         //display prompt text
-        if(this.root.getChildren().contains(textVBox))
-            this.root.getChildren().remove(textVBox);
-        textVBox = new PromptText(this);
-        textVBox.setLayoutX(WINDOW_WIDTH - 375);
-        textVBox.setLayoutY(WINDOW_HEIGHT - 400);
-        root.getChildren().add(textVBox);
+        if(this.root.getChildren().contains(promptText))
+            this.root.getChildren().remove(promptText);
+        promptText = new PromptText(this);
+        promptText.setLayoutX(WINDOW_WIDTH - 375);
+        promptText.setLayoutY(WINDOW_HEIGHT - 400);
+        root.getChildren().add(promptText);
 
         // Start the game with player 0
         currPlayerIndex = 0;
@@ -177,9 +175,6 @@ public class Game extends Application {
         // Sets the color of the rug icon to the color of the currently active player
         rugFlag.setImageByColor(player.getColor());
         // Disable dragging of rug icon
-//        if (!root.getChildren().contains(rugFlag)) {
-//            root.getChildren().add(rugFlag);
-//        }
         rugFlag.setDraggable(false);
 
         // Enable the dice button
@@ -216,7 +211,7 @@ public class Game extends Application {
             rotateAssam(degrees);
         }
         else{
-            textVBox.invalidPrompt(originFacing);
+            promptText.invalidPrompt(originFacing);
         }
     }
 
@@ -240,7 +235,7 @@ public class Game extends Application {
         // Step 2. Move the assam according to the number of dice
         isMoveOver = false;
         moveAssam(point);
-        textVBox.enterMovingStage(point);
+        promptText.enterMovingStage(point);
     }
 
     /**
@@ -266,7 +261,7 @@ public class Game extends Application {
             assamStepCount = 0;
 
             // Payment between players， Update scoreboard
-            textVBox.enterPaymentStage(board.payment(players.get(currPlayerIndex)));
+            promptText.enterPaymentStage(board.payment(players.get(currPlayerIndex)));
             realBoard.setScoreBoard(board.getPlayers());
             iconsAndMusic.playPaymentSound(board.payment(players.get(currPlayerIndex)));
             // Step 3. Enable dragging of rug icon and wait for the currently active player to place a rug.
@@ -288,7 +283,7 @@ public class Game extends Application {
         }
         // Hidden dice
         root.getChildren().remove(dice);
-        textVBox.enterPlacementStage();
+        promptText.enterPlacementStage();
         // if player type  is random or AI, then auto place a rug
         Player player = players.get(currPlayerIndex);
         String playerType = realBoard.getPlayerType(player);
@@ -351,9 +346,9 @@ public class Game extends Application {
                 Color winnerColor = null;
                 if (winner != 't') {
                     winnerColor = board.getPlayers().get(winner).getColor().getPaintColor();
-                    textVBox.enterGameOverStage(board.getPlayers().get(winner).getColor().toString());
+                    promptText.enterGameOverStage(board.getPlayers().get(winner).getColor().toString());
                 }
-                else textVBox.enterGameOverTieStage();
+                else promptText.enterGameOverTieStage();
                 root.getChildren().add(new GameOver(winnerColor));
                 return;
             }
@@ -362,7 +357,7 @@ public class Game extends Application {
             // Step 1. Enable the dice button and wait for the currently active player to roll the dice
             enableRotateAssamAndRollDie();
         }
-        textVBox.enterRollingStage(this);
+        promptText.enterRollingStage(this);
     }
 
     /**
@@ -389,18 +384,18 @@ public class Game extends Application {
         }
         else if (position1.x == position2.x && position1.y == position2.y + 1) {
             //vertical, upward
-            realRug.setTranslateY(-realBoard.GRID_SIZE);
+            realRug.setTranslateY(-RealBoard.GRID_SIZE);
         }
         else if (position1.y == position2.y && position1.x == position2.x - 1) {
             // horizontal, right
-            Rotate rotate = new Rotate(90, realBoard.GRID_SIZE, realBoard.GRID_SIZE);
+            Rotate rotate = new Rotate(90, RealBoard.GRID_SIZE, RealBoard.GRID_SIZE);
             realRug.getTransforms().add(rotate);
         }
         else if (position1.y == position2.y && position1.x == position2.x + 1) {
             // horizontal, left
-            Rotate rotate = new Rotate(90, realBoard.GRID_SIZE, realBoard.GRID_SIZE);
+            Rotate rotate = new Rotate(90, RealBoard.GRID_SIZE, RealBoard.GRID_SIZE);
             realRug.getTransforms().add(rotate);
-            realRug.setTranslateX(-realBoard.GRID_SIZE);
+            realRug.setTranslateX(-RealBoard.GRID_SIZE);
         }
         return realRug;
     }

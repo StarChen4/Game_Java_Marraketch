@@ -151,7 +151,7 @@ public class IconsAndMusic {
             paymentSound.play();
         }
     }
-    public static void playPlaceRugSound(){
+    public void playPlaceRugSound(){
         placeRugSound.play();
     }
 }

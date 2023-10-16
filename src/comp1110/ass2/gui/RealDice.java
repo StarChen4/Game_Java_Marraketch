@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class RealDice extends StackPane {
     private int diePoint;
     private final Button button = new Button("Dice");
     private ImageView diceImage;
-    private ArrayList<ImageView> diceImages = new ArrayList<>();
+    private final ArrayList<ImageView> diceImages = new ArrayList<>();
     private final double DICEWIDTH = 100;
 
 
@@ -37,8 +36,8 @@ public class RealDice extends StackPane {
      */
     RealDice(Game game) {
         this.game = game;
-        setLayoutX(game.getRealBoard().GROUND_SIZE + 60);
-        setLayoutY(game.getRealBoard().GROUND_SIZE - 130);
+        setLayoutX(RealBoard.GROUND_SIZE + 60);
+        setLayoutY(RealBoard.GROUND_SIZE - 130);
         this.button.setMinHeight(80);
         this.button.setMinWidth(80);
         this.button.setStyle("-fx-font-size:30; -fx-font-weight: bold;");
@@ -71,7 +70,7 @@ public class RealDice extends StackPane {
     /**
      * Choose file according to the roll point
      * Automatically adjust the scale
-     * @param rollPoint
+     * @param rollPoint outcome of roll
      * @return an imageView to display
      */
     private ImageView getImageByPoint(int rollPoint){

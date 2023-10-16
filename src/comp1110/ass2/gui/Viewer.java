@@ -8,6 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -20,6 +22,31 @@ import java.util.ArrayList;
  * Version 1.0
  */
 public class Viewer extends Application {
+    public class RugSegment extends StackPane {
+        public static int BOARD_START = RealBoard.BOARD_START;
+        public static int GRID_SIZE = RealBoard.GRID_SIZE;
+
+        /**
+         * initialization
+         *
+         * @param position Placed location coordinate
+         * @param color    color of rug
+         * @param rugId    id of rug
+         */
+        public RugSegment(Coordinate position, Color color, int rugId) {
+            super();
+            if (position.x == -1 || position.y == -1) {
+                return;
+            }
+            Rectangle segment = new Rectangle(GRID_SIZE, GRID_SIZE);
+            segment.setFill(color);
+            segment.setStroke(Color.GREY);
+            this.getChildren().add(segment);
+            this.getChildren().add(new Label(String.valueOf(rugId)));
+            this.setLayoutX(BOARD_START + position.x * GRID_SIZE);
+            this.setLayoutY(BOARD_START + position.y * GRID_SIZE);
+        }
+    }
 
     private static final int VIEWER_WIDTH = 1200;
     private static final int VIEWER_HEIGHT = 700;
@@ -33,7 +60,7 @@ public class Viewer extends Application {
     // UI assam
     private final RealAssam realAssam = new RealAssam(null);
     // The UI segment of rug has been placed
-    private final ArrayList<RealRug> RealRugs = new ArrayList<>();
+    private final ArrayList<RugSegment> rugSegments = new ArrayList<>();
 
     private final Group root = new Group();
     private final Group controls = new Group();
@@ -67,10 +94,10 @@ public class Viewer extends Application {
                 Tile tile = board.getBoardMatrix()[x][y];
                 // tile covered with rug
                 if (tile.getRugId() != -1) {
-                    PlayerColor color = tile.getPlayer().getColor();
-                    RealRug seg = new RealRug(new Coordinate(x, y), color, tile.getRugId());
+                    Color color = tile.getPlayer().getColor().getPaintColor();
+                    RugSegment seg = new RugSegment(new Coordinate(x, y), color, tile.getRugId());
                     realBoard.getChildren().add(seg);
-                    RealRugs.add(seg);
+                    rugSegments.add(seg);
                 }
             }
         }
@@ -81,10 +108,10 @@ public class Viewer extends Application {
      * Clear the rugs from the UI board
      */
     private void resetRug() {
-        for (RealRug realRug : RealRugs) {
-            realBoard.getChildren().remove(realRug);
+        for (RugSegment rugSegment : rugSegments) {
+            realBoard.getChildren().remove(rugSegment);
         }
-        RealRugs.clear();
+        rugSegments.clear();
         board = new Board();
     }
 

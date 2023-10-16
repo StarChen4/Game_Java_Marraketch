@@ -30,19 +30,20 @@ public class IconsAndMusic {
     private final String START_SCENE = "file:assets/Images/StartScene.png";
     private final String SOUND_IMAGE = "file:assets/Images/Sound.png";
     private final String SOUND_MUTE_IMAGE = "file:assets/Images/Mute.png";
-    private static final String DICE_ROLL = "file:assets/Audio/Dice.mp3";
-    private static final String PAYMENT_MUSIC = "file:assets/Audio/Payment.mp3";
-    private static final String PLACE_RUG_MUSIC = "file:assets/Audio/PlaceRug.mp3";
+    private static final String DICE_ROLL = "assets/Audio/Dice.mp3";
+    private static final String PAYMENT_MUSIC = "assets/Audio/Payment.mp3";
+    private static final String PLACE_RUG_MUSIC = "assets/Audio/PlaceRug.mp3";
     // background music
-    private Media bgmMusic = new Media(new File(BGM).toURI().toString());
-    private MediaPlayer bgm = new MediaPlayer(bgmMusic);
-    private static AudioClip diceRollSound = new AudioClip(DICE_ROLL);
-    private static AudioClip paymentSound = new AudioClip(PAYMENT_MUSIC);
-    private static AudioClip placeRugSound = new AudioClip(PLACE_RUG_MUSIC);
+    private final Media bgmMusic = new Media(new File(BGM).toURI().toString());
+    private final MediaPlayer bgm = new MediaPlayer(bgmMusic);
+    // sound effects
+    private static final AudioClip diceRollSound = new AudioClip(new File(DICE_ROLL).toURI().toString());
+    private static final AudioClip paymentSound = new AudioClip(new File(PAYMENT_MUSIC).toURI().toString());
+    private static final AudioClip placeRugSound = new AudioClip(new File(PLACE_RUG_MUSIC).toURI().toString());
     // Mute status
     private boolean soundMuted = false;
     // start scene
-    private Image startScene = new Image(START_SCENE);
+    private final Image startScene = new Image(START_SCENE);
     public final ImageView startSceneImage;
     // Rule window
     public Group ruleWindow;
@@ -52,16 +53,15 @@ public class IconsAndMusic {
     public Slider volumeSlider;
     private double volumeRecorder;
     // Sound Icon
-    private Image soundIconImage;
-    private Image soundUnmuteIconImage;
-    private ImageView soundIcon;
+    private final Image soundIconImage;
+    private final Image soundUnmuteIconImage;
+    private final ImageView soundIcon;
     /**
      * constructor: initialize everything
      * @param windowWidth game window width
      * @param windowHeight game window height
-     * @param game game
      */
-    public IconsAndMusic(int windowWidth, int windowHeight, Game game){
+    public IconsAndMusic(int windowWidth, int windowHeight){
         // play BGM
         bgm.setCycleCount(MediaPlayer.INDEFINITE); // play infinitely
         bgm.play();
@@ -147,8 +147,9 @@ public class IconsAndMusic {
         diceRollSound.play();
     }
     public void playPaymentSound(String paymentString){
-        if(paymentString != null)
-        paymentSound.play();
+        if (paymentString != null) {
+            paymentSound.play();
+        }
     }
     public static void playPlaceRugSound(){
         placeRugSound.play();

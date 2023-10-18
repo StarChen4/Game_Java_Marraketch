@@ -8,10 +8,13 @@ import java.util.Arrays;
 
 
 /**
- * Description: the game board,contains tiles, assam and players on the board
+ * Description: The game board.
+ * Integrating most of the logic determination functions.
+ * This is where the back-end game running.
  *
  * @Author Xing Chen
- * Version 1.0
+ * @Create 18/10/2023
+ * Version 1.1
  */
 public class Board {
     public final static int BOARD_SIZE = 7;

@@ -1,5 +1,12 @@
 package comp1110.ass2;
 
+/**
+ * Description: The tests required by the course
+ *
+ * @Author Xing Chen
+ * @Create 18/10/2023
+ * Version 1.1
+ */
 public class Marrakech {
 
     /**

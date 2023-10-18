@@ -8,7 +8,8 @@ import java.util.List;
  * Description: The Assam class defines the state of the assam position, direction and move function on the board.
  *
  * @Author Xing Chen
- * Version 1.0
+ * @Create 18/10/2023
+ * Version 1.1
  */
 public class Assam {
     /**

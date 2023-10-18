@@ -4,7 +4,8 @@ package comp1110.ass2;
  * Description: This class defines the rug tile
  *
  * @Author Xing Chen
- * Version 1.0
+ * @Create 18/10/2023
+ * Version 1.1
  */
 public class Tile {
     // owner

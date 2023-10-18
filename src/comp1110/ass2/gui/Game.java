@@ -21,10 +21,11 @@ import java.util.List;
 
 /**
  * Description: Program entry
+ * Displaying GUI
  *
- * @Author Chuang Ma u7703248
+ * @Author Chuang Ma u7703248, Xing Chen u7725171
  * @Create 2023/9/20
- * Version 1.0
+ * Version 1.1
  */
 public class Game extends Application {
 

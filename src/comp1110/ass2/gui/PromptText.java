@@ -64,6 +64,7 @@ public class PromptText extends Group {
             this.promptText.getChildren().addAll(paymentPrompt1, new Text(player), new Text(String.valueOf(amount)), paymentPrompt2);
     }
     public void enterPlacementStage(){
+        placePrompt3.setStyle("-fx-font-weight: bold; -fx-fill: red;");
         this.promptText.getChildren().addAll(placePrompt1, placePrompt2, placePrompt3);
     }
     public void enterRollingStage(Game game){

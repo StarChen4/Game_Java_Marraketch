@@ -8,7 +8,7 @@ of our project implements the following features:
    * It will automatically roll the dice and randomly place rug and then move
  - Option to play against an intelligent computer opponent (Task 17)
    * It can evaluate the risk of rotating to different direction and place rug based on a algorithm.
-   * The algorithm encourages covering other players rug and covering the whole row/ column.
+   * The algorithm encourages covering other players rug，connecting multiple rugs and covering the whole row/ column.
 
 Other additional features
  - Pure hand drawing materials of the game board, the Assam, the dice and rugs to make it unique.

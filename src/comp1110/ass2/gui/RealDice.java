@@ -9,7 +9,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
 
 /**
  * Description: the button of die With animated effects.
@@ -24,8 +23,14 @@ public class RealDice extends StackPane {
     // final points of die
     private int diePoint;
     private final Button button = new Button("Dice");
-    private ImageView diceImage;
-    private final ArrayList<ImageView> diceImages = new ArrayList<>();
+    private final Image[] diceImages = {
+            new Image("file:assets/images/Dice1.png"),
+            new Image("file:assets/images/Dice2.png"),
+            new Image("file:assets/images/Dice3.png"),
+            new Image("file:assets/images/Dice4.png")
+    };
+    private ImageView diceImage = new ImageView();
+//    private final ArrayList<ImageView> diceImages = new ArrayList<>();
     private final double DICEWIDTH = 100;
 
 
@@ -56,8 +61,8 @@ public class RealDice extends StackPane {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
             diePoint = Marrakech.rollDie();
             diceImage = getImageByPoint(diePoint);
-            this.getChildren().add(diceImage);
-            this.diceImages.add(diceImage);
+            if (!this.getChildren().contains(diceImage))
+                this.getChildren().add(diceImage);
         }));
         timeline.setCycleCount(10);
         timeline.setOnFinished(event -> {
@@ -74,13 +79,12 @@ public class RealDice extends StackPane {
      * @return an imageView to display
      */
     private ImageView getImageByPoint(int rollPoint){
-        Image image = new Image("file:assets/images/Dice" + rollPoint + ".png");
-        ImageView diceImage = new ImageView(image);
+        diceImage.setImage(diceImages[rollPoint - 1]);
         diceImage.setFitWidth(DICEWIDTH);
         diceImage.setFitHeight(DICEWIDTH);
         return diceImage;
     }
     public void fire(){this.button.fire();}
     public Button getButton(){return button;}
-    public void removeAllImages(){this.getChildren().removeAll(diceImages);}
+    public void removeAllImages(){this.getChildren().removeAll(diceImage);}
 }

@@ -21,3 +21,7 @@ Other additional features
    * sound of placing a rug
    * sound of payment
  - A prompt text board to give player some hints, in case they are confused
+ - Clear direction guidance, using the mouse left_flick and right-click, rotate Assam's direction,
+   it has a good User Interface and User Experience.
+ - Press any key to rotate, giving players more strategic options and layout possibilities. 
+   Making the game more strategic.

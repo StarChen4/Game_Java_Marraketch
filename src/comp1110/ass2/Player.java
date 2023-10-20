@@ -42,6 +42,10 @@ public class Player {
      * @param status player string e.g. Pr00803i
      */
     public Player(String status) {
+        if (status.length() !=8 || !Tools.isNumber(status.substring(2, 7))) {
+            System.out.println("Player::setStatus| invalid player string: " + status);
+            return;
+        }
         // set the player's color
         switch (status.charAt(1)) {
             case 'c' -> this.color = PlayerColor.CYAN;
@@ -59,7 +63,7 @@ public class Player {
      * @param status player string e.g. Pr00803i
      */
     public void setStatus(String status) {
-        if (!Tools.isNumber(status.substring(2, 7))) {
+        if (status.length() !=8 || !Tools.isNumber(status.substring(2, 7))) {
             System.out.println("Player::setStatus| invalid player string: " + status);
             return;
         }

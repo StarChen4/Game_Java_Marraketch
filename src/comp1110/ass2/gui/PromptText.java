@@ -6,6 +6,7 @@ import javafx.scene.text.TextFlow;
 
 /**
  * Description: Store some prompt texts
+ * display some prompt text when the game enters certain stages
  *
  * @Author Xing Chen, u7725171
  * @Create 2023/10/15

@@ -19,7 +19,9 @@ declaration: >-
 # you want to just submit methods):
 class:
    - PromptText
+    - link: https://gitlab.cecs.anu.edu.au/u7722376/comp1110-ass2/-/blob/main/src/comp1110/ass2/gui/PromptText.java
    - IconsAndMusic
+    - link: https://gitlab.cecs.anu.edu.au/u7722376/comp1110-ass2/-/blob/main/src/comp1110/ass2/gui/IconsAndMusic.java
 
 
 # sign *your* name and uid here

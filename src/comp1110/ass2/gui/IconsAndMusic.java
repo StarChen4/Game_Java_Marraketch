@@ -137,7 +137,7 @@ public class IconsAndMusic {
 
     /**
      * change the rule and newGame button to make it smaller,
-     * so they can be moved to the right-bottom corner.
+     * so they can be moved to the right-bottom corner when new game is started.
      */
     public void changeIconsFeatures(){
         buttons.get("ruleButton").setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
